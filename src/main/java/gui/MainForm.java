@@ -1,14 +1,18 @@
 package gui;
 
 import models.Connection;
+import models.Fish;
 import models.table.BaseTableModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class MainForm extends JFrame {
     private Connection connection;
+    private BaseTableModel tb;
+
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -16,6 +20,7 @@ public class MainForm extends JFrame {
     private JButton deleteButton;
     private JButton editButton;
     private JButton findButton;
+
     private JButton exitButton;
 
     public MainForm() throws HeadlessException {
@@ -30,7 +35,7 @@ public class MainForm extends JFrame {
 
         connection = new Connection();
 
-        addTableView("fish", connection.getFishRS());
+        addTableView(connection.getFishRS());
         addListeners();
     }
 
@@ -40,9 +45,18 @@ public class MainForm extends JFrame {
         frame.pack();
     }
 
+    private void addTableView(ResultSet tableDate) {
+        try {
+            addTableView(tableDate.getMetaData().getTableName(1), tableDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void addTableView(String tableName, ResultSet tableDate) {
         JScrollPane scroll = new JScrollPane();
-        JTable table = new JTable(new BaseTableModel(tableDate));
+        tb = new BaseTableModel(tableDate);
+        JTable table = new JTable(tb);
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
 
@@ -54,5 +68,58 @@ public class MainForm extends JFrame {
     }
 
     private void addListeners() {
+        addButton.addActionListener(e -> {
+                    FishForm inputPanel = new FishForm();
+                    do {
+                        int result = JOptionPane.showConfirmDialog(null,
+                                inputPanel,
+                                "Input form",
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.PLAIN_MESSAGE);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            if (inputPanel.canGetFish()) {
+                                Fish fish = inputPanel.getFish();
+                                if (!insertIntoFishTable(fish)) {
+                                    JOptionPane.showMessageDialog(
+                                            this,
+                                            "This record wasn't inserted!",
+                                            "Insert problem",
+                                            JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                    tb.fireTableDataChanged();
+                                }
+                                break;
+                            } else {
+                                JOptionPane.showMessageDialog(
+                                        inputPanel,
+                                        "You have error in fields: " + inputPanel.incorrectFields(),
+                                        "Incorrect data",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            break;
+                        }
+                    } while (true);
+                }
+        );
+    }
+
+    private boolean insertIntoFishTable(Fish fish) {
+        try {
+            ResultSet rs = connection.getFishRS();
+            rs.moveToInsertRow();
+            if (fish.getId() != -1) {
+                rs.updateInt(1, fish.getId());
+            }
+            rs.updateString(2, fish.getName());
+            rs.updateInt(3, fish.getPrice());
+            rs.insertRow();
+            rs.beforeFirst();
+            return true;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            return false;
+        }
     }
 }

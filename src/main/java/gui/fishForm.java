@@ -42,4 +42,15 @@ public class FishForm extends JPanel {
     public boolean canGetFish() {
         return canGetName() && canGetPrice();
     }
+
+    public String incorrectFields() {
+        String s = "";
+
+        if (!canGetName())
+            s += " name";
+        if (!canGetPrice())
+            s += " price";
+
+        return s;
+    }
 }
