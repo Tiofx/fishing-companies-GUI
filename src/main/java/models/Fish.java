@@ -11,6 +11,10 @@ public class Fish {
         this.price = price;
     }
 
+    public Fish(String name, int price) {
+        this(-1, name, price);
+    }
+
     public int getId() {
         return id;
     }

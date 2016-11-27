@@ -31,7 +31,6 @@ public class BaseTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         try {
-            System.out.println(tableResultSet.getMetaData().getColumnLabel(column + 1 + skipFirst));
             return tableResultSet.getMetaData().getColumnLabel(column + 1 + skipFirst);
         } catch (SQLException e) {
             return e.toString();
