@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class MainForm extends JFrame {
     private Connection connection;
     private BaseTableModel tb;
-
+    private JTable table;
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -56,7 +56,7 @@ public class MainForm extends JFrame {
     private void addTableView(String tableName, ResultSet tableDate) {
         JScrollPane scroll = new JScrollPane();
         tb = new BaseTableModel(tableDate);
-        JTable table = new JTable(tb);
+        table = new JTable(tb);
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
 
@@ -103,6 +103,25 @@ public class MainForm extends JFrame {
                     } while (true);
                 }
         );
+
+        deleteButton.addActionListener(e -> {
+            deleteFromFishTable(table.getSelectedRow() + 1);
+
+            tb.fireTableDataChanged();
+        });
+    }
+
+    private boolean deleteFromFishTable(int rowNum) {
+        try {
+            ResultSet rs = connection.getFishRS();
+            rs.absolute(rowNum);
+            rs.deleteRow();
+            rs.beforeFirst();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private boolean insertIntoFishTable(Fish fish) {
