@@ -14,6 +14,11 @@ public class FishForm extends JPanel {
         add(rootPanel);
     }
 
+    public void setFish(Fish fish) {
+        nameTxt.setText(fish.getName());
+        priceTxt.setText(Integer.toString(fish.getPrice()));
+    }
+
     public String getName() {
         return nameTxt.getText();
     }

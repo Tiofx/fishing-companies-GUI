@@ -34,6 +34,7 @@ public class MainForm extends JFrame {
         this.setVisible(true);
 
         connection = new Connection();
+        connection.startConnection();
 
         addTableView(connection.getFishRS());
         addListeners();
@@ -116,7 +117,6 @@ public class MainForm extends JFrame {
             ResultSet rs = connection.getFishRS();
             rs.absolute(rowNum);
             rs.deleteRow();
-            rs.beforeFirst();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,5 +140,11 @@ public class MainForm extends JFrame {
             e1.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        connection.close();
     }
 }
