@@ -14,8 +14,32 @@ public class FishForm extends JPanel {
         add(rootPanel);
     }
 
+    public String getName() {
+        return nameTxt.getText();
+    }
+
+    public Integer getPrice() {
+        return Integer.parseUnsignedInt(priceTxt.getText());
+    }
+
     public Fish getFish() {
-        return new Fish(nameTxt.getText(),
-                Integer.parseInt(priceTxt.getText()));
+        return new Fish(getName(), getPrice());
+    }
+
+    public boolean canGetName() {
+        return true;
+    }
+
+    public boolean canGetPrice() {
+        try {
+            Integer.parseUnsignedInt(priceTxt.getText());
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean canGetFish() {
+        return canGetName() && canGetPrice();
     }
 }
