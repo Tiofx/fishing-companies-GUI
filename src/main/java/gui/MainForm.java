@@ -110,6 +110,44 @@ public class MainForm extends JFrame {
 
             tb.fireTableDataChanged();
         });
+
+        editButton.addActionListener(e -> {
+            FishForm inputPanel = new FishForm();
+            do {
+                inputPanel.setFish(getFish(table.getSelectedRow() + 1));
+                int result = JOptionPane.showConfirmDialog(null,
+                        inputPanel,
+                        "Edit form",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    if (inputPanel.canGetFish()) {
+                        Fish fish = inputPanel.getFish();
+
+                        if (!editFishTable(table.getSelectedRow() + 1, fish)) {
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "This record wasn't edited!",
+                                    "Edit problem",
+                                    JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            tb.fireTableDataChanged();
+                        }
+                        break;
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                inputPanel,
+                                "You have error in fields: " + inputPanel.incorrectFields(),
+                                "Incorrect data",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    break;
+                }
+            } while (true);
+
+        });
     }
 
     private boolean deleteFromFishTable(int rowNum) {
@@ -139,6 +177,33 @@ public class MainForm extends JFrame {
         } catch (SQLException e1) {
             e1.printStackTrace();
             return false;
+        }
+    }
+
+    private boolean editFishTable(int selectedRow, Fish changedFish) {
+        try {
+            ResultSet rs = connection.getFishRS();
+            rs.absolute(selectedRow);
+            rs.updateString(2, changedFish.getName());
+            rs.updateInt(3, changedFish.getPrice());
+            rs.updateRow();
+            return true;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            return false;
+        }
+    }
+
+    private Fish getFish(int rowNum) {
+        Fish fish = null;
+        try {
+            ResultSet rs = connection.getFishRS();
+            rs.absolute(rowNum);
+            fish = new Fish(rs.getInt(1), rs.getString(2), rs.getInt(3));
+            return fish;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            return fish;
         }
     }
 
