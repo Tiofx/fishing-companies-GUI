@@ -5,23 +5,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BaseTableModel extends AbstractTableModel {
-    private ResultSet dateFromFish;
+    private ResultSet tableResultSet;
     private int skipFirst;
 
-    public BaseTableModel(ResultSet dateFromFish, int skipFirst) {
-        this.dateFromFish = dateFromFish;
+    public BaseTableModel(ResultSet tableResultSet, int skipFirst) {
+        this.tableResultSet = tableResultSet;
         this.skipFirst = skipFirst;
     }
 
-    public BaseTableModel(ResultSet dateFromFish) {
-        this(dateFromFish, 1);
+    public BaseTableModel(ResultSet tableResultSet) {
+        this(tableResultSet, 1);
     }
 
     @Override
     public int getRowCount() {
         try {
-            dateFromFish.last();
-            return dateFromFish.getRow();
+            tableResultSet.last();
+            return tableResultSet.getRow();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,8 +31,8 @@ public class BaseTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         try {
-            System.out.println(dateFromFish.getMetaData().getColumnLabel(column + 1 + skipFirst));
-            return dateFromFish.getMetaData().getColumnLabel(column + 1 + skipFirst);
+            System.out.println(tableResultSet.getMetaData().getColumnLabel(column + 1 + skipFirst));
+            return tableResultSet.getMetaData().getColumnLabel(column + 1 + skipFirst);
         } catch (SQLException e) {
             return e.toString();
         }
@@ -41,7 +41,7 @@ public class BaseTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         try {
-            return dateFromFish.getMetaData().getColumnCount() - skipFirst;
+            return tableResultSet.getMetaData().getColumnCount() - skipFirst;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,8 +51,8 @@ public class BaseTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         try {
-            dateFromFish.absolute(rowIndex + 1);
-            return dateFromFish.getObject(columnIndex + 1 + skipFirst);
+            tableResultSet.absolute(rowIndex + 1);
+            return tableResultSet.getObject(columnIndex + 1 + skipFirst);
         } catch (SQLException e) {
             e.printStackTrace();
         }
