@@ -135,7 +135,7 @@ public class MainForm extends JFrame {
         });
 
         deleteButton.addActionListener(e -> {
-            deleteFromFishTable(table.getSelectedRow() + 1);
+            fishController.delete(table.getSelectedRow() + 1);
 
             tb.fireTableDataChanged();
         });
@@ -156,7 +156,7 @@ public class MainForm extends JFrame {
 
             if (result == JOptionPane.OK_OPTION) {
                 Fish fish = inputPanel.getRawFish();
-                findInFishTable(inputPanel.canGets(), fish);
+                fishController.find(inputPanel.canGets(), fish);
                 tb.fireTableDataChanged();
             }
         });
@@ -165,28 +165,6 @@ public class MainForm extends JFrame {
         resetButton.addActionListener(e -> {
             fishController.reset();
         });
-    }
-
-
-    private void findInFishTable(Boolean[] f, Fish searchFields) {
-        fishController.find(f, searchFields);
-    }
-
-    private boolean deleteFromFishTable(int rowNum) {
-        return fishController.delete(rowNum);
-    }
-
-    private boolean insertIntoFishTable(Fish fish) {
-        fishController.reset();
-        return fishController.insert(fish);
-    }
-
-    private boolean editFishTable(int selectedRow, Fish changedFish) {
-        return fishController.edit(selectedRow, changedFish);
-    }
-
-    private Fish getRecord(int rowNum) {
-        return fishController.getRecord(rowNum);
     }
 
     @Override
