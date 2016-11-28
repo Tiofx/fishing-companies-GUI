@@ -7,6 +7,8 @@ import models.table.BaseTableModel;
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -59,8 +61,53 @@ public class MainForm extends JFrame {
         JScrollPane scroll = new JScrollPane();
         tb = new BaseTableModel(tableDate);
         table = new JTable(tb);
+        table.setAutoCreateRowSorter(false);
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
+
+
+        table.getTableHeader().addMouseListener(new MouseAdapter() {
+
+            private final static int UNSORTED = 0;
+            private final static int DESCENDING = -1;
+            private final static int ASCENDING = 1;
+            private int[] sortedInfo = {UNSORTED, UNSORTED};
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Point point = e.getPoint();
+                int column = table.columnAtPoint(point);
+
+                JdbcRowSet jrs = connection.getFishJRS();
+                try {
+                    switch (column + 1) {
+                        case 1:
+                            if (sortedInfo[column] != ASCENDING) {
+                                jrs.setCommand("select * from fish order by name ASC");
+                                sortedInfo[column] = ASCENDING;
+                            } else {
+                                jrs.setCommand("select * from fish order by name DESC");
+                                sortedInfo[column] = DESCENDING;
+                            }
+                            break;
+                        case 2:
+                            if (sortedInfo[column] != ASCENDING) {
+                                jrs.setCommand("select * from fish order by price ASC");
+                                sortedInfo[column] = ASCENDING;
+                            } else {
+                                jrs.setCommand("select * from fish order by price DESC");
+                                sortedInfo[column] = DESCENDING;
+                            }
+                            break;
+                    }
+                    jrs.execute();
+                    jrs.next();
+                    tb.fireTableDataChanged();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
 
         scroll.setViewportView(table);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -200,11 +247,11 @@ public class MainForm extends JFrame {
         }
     }
 
-    private String formPreparedStatement(Boolean[] f, int n) {
+    private String formPreparedStatement(Boolean[] f, int columnCount) {
         String stt = "select * from fish where ";
         String condition = "";
         int firstSkip = 1;
-        for (int i = firstSkip; i < n; i++) {
+        for (int i = firstSkip; i < columnCount; i++) {
             try {
                 if (f[i - firstSkip])
                     condition += connection.getFishJRS().getMetaData().getColumnName(i + 1) + " = ?  ";
