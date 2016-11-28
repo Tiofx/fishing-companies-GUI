@@ -14,7 +14,7 @@ public class FishController extends AbstractController<Fish> {
     }
 
     @Override
-    protected void setLine(Fish newLine) throws SQLException {
+    protected void updateLine(Fish newLine) throws SQLException {
         if (newLine.getId() != -1) {
             jrs.updateInt(1, newLine.getId());
         }
@@ -46,9 +46,4 @@ public class FishController extends AbstractController<Fish> {
                 break;
         }
     }
-
-//    @Override
-//    protected String getTableName() {
-//        return "fish";
-//    }
 }

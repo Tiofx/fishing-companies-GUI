@@ -29,7 +29,7 @@ public abstract class AbstractController<T> {
         resetSortedInfo();
     }
 
-    protected abstract void setLine(T newLine) throws SQLException;
+    protected abstract void updateLine(T newLine) throws SQLException;
 
     protected abstract T getLine() throws SQLException;
 
@@ -46,6 +46,10 @@ public abstract class AbstractController<T> {
         }
     }
 
+    public final T getLineSelectedInTable() {
+        return getLine(view.getSelectedRow() + 1);
+    }
+
     public final T getLine(int rowNum) {
         try {
             jrs.absolute(rowNum);
@@ -60,7 +64,7 @@ public abstract class AbstractController<T> {
         try {
             jrs.moveToInsertRow();
 
-            setLine(line);
+            updateLine(line);
 
             jrs.insertRow();
             jrs.beforeFirst();
@@ -71,12 +75,25 @@ public abstract class AbstractController<T> {
         }
     }
 
+    public final boolean editSelectedInTable(T newLine) {
+        return edit(view.getSelectedRow() + 1, newLine);
+    }
+
+    public final boolean edit(T newLine) {
+        try {
+            updateLine(newLine);
+            jrs.updateRow();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public final boolean edit(int oldLine, T newLine) {
         try {
             jrs.absolute(oldLine);
-
-            setLine(newLine);
-
+            updateLine(newLine);
             jrs.updateRow();
             return true;
         } catch (SQLException e1) {
