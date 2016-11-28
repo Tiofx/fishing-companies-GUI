@@ -29,9 +29,9 @@ public abstract class AbstractController<T> {
         resetSortedInfo();
     }
 
-    protected abstract void updateLine(T newLine) throws SQLException;
+    protected abstract void updateRecord(T newRecord) throws SQLException;
 
-    protected abstract T getLine() throws SQLException;
+    protected abstract T getRecord() throws SQLException;
 
     protected abstract int getSkipNumber();
 
@@ -46,25 +46,25 @@ public abstract class AbstractController<T> {
         }
     }
 
-    public final T getLineSelectedInTable() {
-        return getLine(view.getSelectedRow() + 1);
+    public final T getRecordSelectedInTable() {
+        return getRecord(view.getSelectedRow() + 1);
     }
 
-    public final T getLine(int rowNum) {
+    public final T getRecord(int rowNum) {
         try {
             jrs.absolute(rowNum);
-            return getLine();
+            return getRecord();
         } catch (SQLException e1) {
             e1.printStackTrace();
             return null;
         }
     }
-
-    public final boolean insert(T line) {
+    
+    public final boolean insert(T record) {
         try {
             jrs.moveToInsertRow();
 
-            updateLine(line);
+            updateRecord(record);
 
             jrs.insertRow();
             jrs.beforeFirst();
@@ -75,13 +75,13 @@ public abstract class AbstractController<T> {
         }
     }
 
-    public final boolean editSelectedInTable(T newLine) {
-        return edit(view.getSelectedRow() + 1, newLine);
+    public final boolean editSelectedInTable(T newRecord) {
+        return edit(view.getSelectedRow() + 1, newRecord);
     }
 
-    public final boolean edit(T newLine) {
+    public final boolean edit(T newRecord) {
         try {
-            updateLine(newLine);
+            updateRecord(newRecord);
             jrs.updateRow();
             return true;
         } catch (SQLException e) {
@@ -90,10 +90,10 @@ public abstract class AbstractController<T> {
         }
     }
 
-    public final boolean edit(int oldLine, T newLine) {
+    public final boolean edit(int oldRecord, T newRecord) {
         try {
-            jrs.absolute(oldLine);
-            updateLine(newLine);
+            jrs.absolute(oldRecord);
+            updateRecord(newRecord);
             jrs.updateRow();
             return true;
         } catch (SQLException e1) {
