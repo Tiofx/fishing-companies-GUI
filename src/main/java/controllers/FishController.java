@@ -14,16 +14,16 @@ public class FishController extends AbstractController<Fish> {
     }
 
     @Override
-    protected void updateLine(Fish newLine) throws SQLException {
-        if (newLine.getId() != -1) {
-            jrs.updateInt(1, newLine.getId());
+    protected void updateRecord(Fish newRecord) throws SQLException {
+        if (newRecord.getId() != -1) {
+            jrs.updateInt(1, newRecord.getId());
         }
-        jrs.updateString(2, newLine.getName());
-        jrs.updateInt(3, newLine.getPrice());
+        jrs.updateString(2, newRecord.getName());
+        jrs.updateInt(3, newRecord.getPrice());
     }
 
     @Override
-    protected Fish getLine() throws SQLException {
+    protected Fish getRecord() throws SQLException {
         return new Fish(jrs.getInt(1), jrs.getString(2), jrs.getInt(3));
     }
 

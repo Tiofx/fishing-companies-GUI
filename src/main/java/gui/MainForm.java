@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Function;
 
 public class MainForm extends JFrame {
     private FishController fishController;
@@ -86,44 +87,52 @@ public class MainForm extends JFrame {
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         tabbedPane.addTab(tableName, scroll);
+
+//        return fishController;
+    }
+
+    private <T> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
+        do {
+            int result = JOptionPane.showConfirmDialog(null,
+                    inputPanel,
+                    nameOperation + " form",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                if (inputPanel.canGetRecord()) {
+                    T record = inputPanel.getRecord();
+
+                    if (!func.apply(record)) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "This record wasn't " + nameOperation + "ed!!!",
+                                nameOperation + " problem",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        tb.fireTableDataChanged();
+                    }
+
+                    break;
+                } else {
+//                    JOptionPane.showMessageDialog(
+//                            inputPanel,
+//                            "You have error in fields: " + inputPanel.incorrectFields(),
+//                            "Incorrect data",
+//                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                break;
+            }
+        } while (true);
+
     }
 
     private void addListeners() {
         addButton.addActionListener(e -> {
-                    FishForm inputPanel = new FishForm();
-                    do {
-                        int result = JOptionPane.showConfirmDialog(null,
-                                inputPanel,
-                                "Input form",
-                                JOptionPane.OK_CANCEL_OPTION,
-                                JOptionPane.PLAIN_MESSAGE);
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            if (inputPanel.canGetFish()) {
-                                Fish fish = inputPanel.getFish();
-                                if (!insertIntoFishTable(fish)) {
-                                    JOptionPane.showMessageDialog(
-                                            this,
-                                            "This record wasn't inserted!",
-                                            "Insert problem",
-                                            JOptionPane.WARNING_MESSAGE);
-                                } else {
-                                    tb.fireTableDataChanged();
-                                }
-                                break;
-                            } else {
-                                JOptionPane.showMessageDialog(
-                                        inputPanel,
-                                        "You have error in fields: " + inputPanel.incorrectFields(),
-                                        "Incorrect data",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            break;
-                        }
-                    } while (true);
-                }
-        );
+            FishForm inputPanel = new FishForm();
+            makeOperation("add", inputPanel, a -> fishController.insert(a));
+        });
 
         deleteButton.addActionListener(e -> {
             deleteFromFishTable(table.getSelectedRow() + 1);
@@ -133,40 +142,8 @@ public class MainForm extends JFrame {
 
         editButton.addActionListener(e -> {
             FishForm inputPanel = new FishForm();
-            do {
-                inputPanel.setFish(getFish(table.getSelectedRow() + 1));
-                int result = JOptionPane.showConfirmDialog(null,
-                        inputPanel,
-                        "Edit form",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
-
-                if (result == JOptionPane.OK_OPTION) {
-                    if (inputPanel.canGetFish()) {
-                        Fish fish = inputPanel.getFish();
-
-                        if (!editFishTable(table.getSelectedRow() + 1, fish)) {
-                            JOptionPane.showMessageDialog(
-                                    this,
-                                    "This record wasn't edited!",
-                                    "Edit problem",
-                                    JOptionPane.WARNING_MESSAGE);
-                        } else {
-                            tb.fireTableDataChanged();
-                        }
-                        break;
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                inputPanel,
-                                "You have error in fields: " + inputPanel.incorrectFields(),
-                                "Incorrect data",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    break;
-                }
-            } while (true);
-
+            inputPanel.setRecord(fishController.getRecordSelectedInTable());
+            makeOperation("edit", inputPanel, a -> fishController.edit(a));
         });
 
         findButton.addActionListener(e -> {
@@ -183,6 +160,7 @@ public class MainForm extends JFrame {
                 tb.fireTableDataChanged();
             }
         });
+
 
         resetButton.addActionListener(e -> {
             fishController.reset();
@@ -207,8 +185,8 @@ public class MainForm extends JFrame {
         return fishController.edit(selectedRow, changedFish);
     }
 
-    private Fish getFish(int rowNum) {
-        return fishController.getLine(rowNum);
+    private Fish getRecord(int rowNum) {
+        return fishController.getRecord(rowNum);
     }
 
     @Override

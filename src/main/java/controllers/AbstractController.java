@@ -59,7 +59,7 @@ public abstract class AbstractController<T> {
             return null;
         }
     }
-    
+
     public final boolean insert(T record) {
         try {
             jrs.moveToInsertRow();
