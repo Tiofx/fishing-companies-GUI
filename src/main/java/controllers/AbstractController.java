@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public abstract class AbstractController<T> {
-    protected final String baseStatement = "SELECT * FROM " + getTableName();
+    protected final String baseStatement;
 
     protected JdbcRowSet jrs;
     protected BaseTableModel tableModel;
@@ -24,6 +24,7 @@ public abstract class AbstractController<T> {
         this.tableModel = tableModel;
         this.view = view;
 
+        baseStatement = "SELECT * FROM " + getTableName();
         sortedInfo = new int[tableModel.getColumnCount()];
         resetSortedInfo();
     }
@@ -36,7 +37,14 @@ public abstract class AbstractController<T> {
 
     protected abstract void setCommandParameter(int numParameter, int numModelField, T searchFields) throws SQLException;
 
-    protected abstract String getTableName();
+    protected String getTableName() {
+        try {
+            return jrs.getMetaData().getTableName(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public final T getLine(int rowNum) {
         try {
@@ -101,7 +109,7 @@ public abstract class AbstractController<T> {
                     numPar++;
                 }
             }
-            
+
             jrs.execute();
             jrs.next();
             return true;

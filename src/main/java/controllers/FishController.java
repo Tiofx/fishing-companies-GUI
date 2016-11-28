@@ -47,8 +47,8 @@ public class FishController extends AbstractController<Fish> {
         }
     }
 
-    @Override
-    protected String getTableName() {
-        return "fish";
-    }
+//    @Override
+//    protected String getTableName() {
+//        return "fish";
+//    }
 }
