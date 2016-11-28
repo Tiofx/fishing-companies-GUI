@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.rowset.JdbcRowSetImpl;
 import models.Connection;
 import models.Fish;
 import models.table.BaseTableModel;
@@ -152,52 +151,70 @@ public class MainForm extends JFrame {
         });
 
         findButton.addActionListener(e -> {
-            try {
-                JdbcRowSet jrs = new JdbcRowSetImpl(connection.getConnection());
-                jrs.setCommand(findByPrice);
-//                String value = JOptionPane.showInputDialog("Enter price number that must be finded:", "price");
-//                if (value != null && !value.equals("")) {
-//                    int number = Integer.parseInt(value);
-//                    jrs.setInt(1, number);
-//                    jrs.execute();
-//                    jrs.next();
-//                    addTableView(jrs);
-////                    table = new JTable(new BaseTableModel(jrs));
-//                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
+            FishForm inputPanel = new FishForm();
+            int result = JOptionPane.showConfirmDialog(null,
+                    inputPanel,
+                    "Find form",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                Fish fish = inputPanel.getRawFish();
+                findInFishTable(inputPanel.canGets(), fish);
+                tb.fireTableDataChanged();
             }
         });
     }
 
-    private static final String findByName = "select * from fish where name = ?";
-    private static final String findByPrice = "select * from fish where price = ?";
-    private static final String findByNameAndPrice = "select * from fish where price = ? AND price = ?";
+
+    private void findInFishTable(Boolean[] f, Fish searchFields) {
+        JdbcRowSet jrs = connection.getFishJRS();
+        try {
+            int n = jrs.getMetaData().getColumnCount();
+            String preparedStatement = formPreparedStatement(f, n);
+            jrs.setCommand(preparedStatement);
+
+            int firstSkip = 1;
+            int numPar = 1;
+            for (int i = firstSkip; i < n; i++) {
+                if (f[i - firstSkip]) {
+                    switch (i + 1) {
+                        case 1:
+                            jrs.setInt(numPar, searchFields.getId());
+                            break;
+                        case 2:
+                            jrs.setString(numPar, searchFields.getName());
+                            break;
+                        case 3:
+                            jrs.setInt(numPar, searchFields.getPrice());
+                            break;
+                    }
+                    numPar++;
+                }
+            }
+
+            jrs.execute();
+            jrs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String formPreparedStatement(Boolean[] f, int n) {
         String stt = "select * from fish where ";
-        for (int i = 1; i < n; i++) {
+        String condition = "";
+        int firstSkip = 1;
+        for (int i = firstSkip; i < n; i++) {
             try {
-                if (f[i - 1])
-                    stt += connection.getFishJRS().getMetaData().getColumnClassName(i + 1) + " = ? AND";
+                if (f[i - firstSkip])
+                    condition += connection.getFishJRS().getMetaData().getColumnName(i + 1) + " = ?  ";
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-//            switch (i) {
-//                case 1:
-//                    stt += "id = ? AND ";
-//                    break;
-//                case 2:
-//                    stt += "name = ? AND ";
-//                    break;
-//                case 3:
-//                    stt += "price = ? AND ";
-//                    break;
-//            }
         }
-        // TODO: 27/11/2016 delete
-        stt.lastIndexOf("AND ");
-
+        condition = condition.trim();
+        condition = condition.replaceAll("  ", " AND ");
+        stt += condition;
         return stt;
     }
 

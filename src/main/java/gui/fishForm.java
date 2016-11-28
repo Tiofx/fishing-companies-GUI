@@ -32,9 +32,16 @@ public class FishForm extends JPanel {
         return new Fish(getName(), getPrice());
     }
 
-//    public Fish getRawFish() {
-//
-//    }
+    public Fish getRawFish() {
+        Fish rawFish = new Fish();
+        if (canGetName()) {
+            rawFish.setName(getName());
+        }
+        if (canGetPrice()) {
+            rawFish.setPrice(getPrice());
+        }
+        return rawFish;
+    }
 
     public boolean canGetName() {
         return getName().length() != 0;

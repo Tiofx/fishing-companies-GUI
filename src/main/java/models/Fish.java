@@ -5,6 +5,10 @@ public class Fish {
     private String name;
     private int price;
 
+    public Fish() {
+        this(-1, null, 0);
+    }
+
     public Fish(int id, String name, int price) {
         this.id = id;
         this.name = name;
