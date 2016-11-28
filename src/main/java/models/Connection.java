@@ -1,5 +1,8 @@
 package models;
 
+import com.sun.rowset.JdbcRowSetImpl;
+
+import javax.sql.rowset.JdbcRowSet;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,16 +11,17 @@ import java.sql.Statement;
 public class Connection {
     protected final String driverName;
 
-    protected final String id;
+    protected final String ip;
     protected final String port;
     protected final String dataBaseName;
     protected final String userName;
     protected final String userPassword;
+    protected String url;
 
 
     protected java.sql.Connection connection;
     protected Statement stmt;
-    protected ResultSet fishRS;
+    protected JdbcRowSet fishJRS;
 
     public Connection() {
         this("com.mysql.jdbc.Driver",
@@ -28,10 +32,10 @@ public class Connection {
                 "root");
     }
 
-    public Connection(String driverName, String id, String port,
+    public Connection(String driverName, String ip, String port,
                       String dataBaseName, String userName, String userPassword) {
         this.driverName = driverName;
-        this.id = id;
+        this.ip = ip;
         this.port = port;
         this.dataBaseName = dataBaseName;
         this.userName = userName;
@@ -39,17 +43,23 @@ public class Connection {
     }
 
     public void startConnection() {
+        connection = null;
         try {
-            connection = null;
             Class.forName(driverName);
-            String url = "jdbc:mysql://localhost:3306/fishingCompanies";
-            connection = DriverManager.getConnection(url, userName, userPassword);
+            url = "jdbc:mysql://" + ip + ":" + port + "/" + dataBaseName
+                    + "?user=" + userName + "&password=" + userPassword;
+//            connection = DriverManager.getConnection(url, userName, userPassword);
+            connection = DriverManager.getConnection(url);
 
             stmt = connection.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            fishRS = stmt.executeQuery("SELECT * FROM fish");
+//            ResultSet fishRS = stmt.executeQuery("SELECT * FROM fish");
+            fishJRS = new JdbcRowSetImpl(connection);
+            fishJRS.setCommand("SELECT * FROM fish");
+            fishJRS.execute();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -57,17 +67,21 @@ public class Connection {
         }
     }
 
+    public java.sql.Connection getConnection() {
+        return connection;
+    }
+
     public Statement getStmt() {
         return stmt;
     }
 
-    public ResultSet getFishRS() {
-        return fishRS;
+    public JdbcRowSet getFishJRS() {
+        return fishJRS;
     }
 
     public void close() {
         try {
-            fishRS.close();
+            fishJRS.close();
             stmt.close();
             connection.close();
         } catch (SQLException e) {

@@ -3,6 +3,7 @@ package gui;
 import models.Fish;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 public class FishForm extends JPanel {
     private JPanel rootPanel;
@@ -31,8 +32,12 @@ public class FishForm extends JPanel {
         return new Fish(getName(), getPrice());
     }
 
+//    public Fish getRawFish() {
+//
+//    }
+
     public boolean canGetName() {
-        return true;
+        return getName().length() != 0;
     }
 
     public boolean canGetPrice() {
@@ -41,11 +46,16 @@ public class FishForm extends JPanel {
         } catch (NumberFormatException e) {
             return false;
         }
+
         return true;
     }
 
     public boolean canGetFish() {
-        return canGetName() && canGetPrice();
+        return Arrays.stream(canGets()).reduce(true, (a, b) -> a && b);
+    }
+
+    public Boolean[] canGets() {
+        return new Boolean[]{canGetName(), canGetPrice()};
     }
 
     public String incorrectFields() {

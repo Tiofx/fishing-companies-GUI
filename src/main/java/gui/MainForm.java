@@ -1,9 +1,11 @@
 package gui;
 
+import com.sun.rowset.JdbcRowSetImpl;
 import models.Connection;
 import models.Fish;
 import models.table.BaseTableModel;
 
+import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class MainForm extends JFrame {
         connection = new Connection();
         connection.startConnection();
 
-        addTableView(connection.getFishRS());
+        addTableView(connection.getFishJRS());
         addListeners();
     }
 
@@ -148,11 +150,60 @@ public class MainForm extends JFrame {
             } while (true);
 
         });
+
+        findButton.addActionListener(e -> {
+            try {
+                JdbcRowSet jrs = new JdbcRowSetImpl(connection.getConnection());
+                jrs.setCommand(findByPrice);
+//                String value = JOptionPane.showInputDialog("Enter price number that must be finded:", "price");
+//                if (value != null && !value.equals("")) {
+//                    int number = Integer.parseInt(value);
+//                    jrs.setInt(1, number);
+//                    jrs.execute();
+//                    jrs.next();
+//                    addTableView(jrs);
+////                    table = new JTable(new BaseTableModel(jrs));
+//                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
+
+    private static final String findByName = "select * from fish where name = ?";
+    private static final String findByPrice = "select * from fish where price = ?";
+    private static final String findByNameAndPrice = "select * from fish where price = ? AND price = ?";
+
+    private String formPreparedStatement(Boolean[] f, int n) {
+        String stt = "select * from fish where ";
+        for (int i = 1; i < n; i++) {
+            try {
+                if (f[i - 1])
+                    stt += connection.getFishJRS().getMetaData().getColumnClassName(i + 1) + " = ? AND";
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+//            switch (i) {
+//                case 1:
+//                    stt += "id = ? AND ";
+//                    break;
+//                case 2:
+//                    stt += "name = ? AND ";
+//                    break;
+//                case 3:
+//                    stt += "price = ? AND ";
+//                    break;
+//            }
+        }
+        // TODO: 27/11/2016 delete
+        stt.lastIndexOf("AND ");
+
+        return stt;
     }
 
     private boolean deleteFromFishTable(int rowNum) {
         try {
-            ResultSet rs = connection.getFishRS();
+            ResultSet rs = connection.getFishJRS();
             rs.absolute(rowNum);
             rs.deleteRow();
             return true;
@@ -164,7 +215,7 @@ public class MainForm extends JFrame {
 
     private boolean insertIntoFishTable(Fish fish) {
         try {
-            ResultSet rs = connection.getFishRS();
+            ResultSet rs = connection.getFishJRS();
             rs.moveToInsertRow();
             if (fish.getId() != -1) {
                 rs.updateInt(1, fish.getId());
@@ -182,7 +233,7 @@ public class MainForm extends JFrame {
 
     private boolean editFishTable(int selectedRow, Fish changedFish) {
         try {
-            ResultSet rs = connection.getFishRS();
+            ResultSet rs = connection.getFishJRS();
             rs.absolute(selectedRow);
             rs.updateString(2, changedFish.getName());
             rs.updateInt(3, changedFish.getPrice());
@@ -197,7 +248,7 @@ public class MainForm extends JFrame {
     private Fish getFish(int rowNum) {
         Fish fish = null;
         try {
-            ResultSet rs = connection.getFishRS();
+            ResultSet rs = connection.getFishJRS();
             rs.absolute(rowNum);
             fish = new Fish(rs.getInt(1), rs.getString(2), rs.getInt(3));
             return fish;
