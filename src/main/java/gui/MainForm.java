@@ -67,6 +67,8 @@ public class MainForm extends JFrame {
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
 
+        fishController = new FishController(connection.getFishJRS(), tb, table);
+
 
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override

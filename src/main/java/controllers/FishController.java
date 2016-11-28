@@ -134,36 +134,28 @@ public class FishController {
         return stt;
     }
 
-    private final static int UNSORTED = 0;
-    private final static int DESCENDING = -1;
-    private final static int ASCENDING = 1;
-    private int[] sortedInfo = {UNSORTED, UNSORTED};
+    protected final static int UNSORTED = 0;
+    protected final static int DESCENDING = -1;
+    protected final static int ASCENDING = 1;
+    protected int[] sortedInfo = {UNSORTED, UNSORTED};
 
     public boolean sort(int column) {
+        return sort(column, sortedInfo[column - 1] != ASCENDING ? ASCENDING : DESCENDING);
+    }
+
+    public boolean sort(int column, int sortOrder) {
         try {
-            switch (column) {
-                case 1:
-                    if (sortedInfo[column] != ASCENDING) {
-                        jrs.setCommand("select * from fish order by name ASC");
-                        sortedInfo[column] = ASCENDING;
-                    } else {
-                        jrs.setCommand("select * from fish order by name DESC");
-                        sortedInfo[column] = DESCENDING;
-                    }
-                    break;
-                case 2:
-                    if (sortedInfo[column] != ASCENDING) {
-                        jrs.setCommand("select * from fish order by price ASC");
-                        sortedInfo[column] = ASCENDING;
-                    } else {
-                        jrs.setCommand("select * from fish order by price DESC");
-                        sortedInfo[column] = DESCENDING;
-                    }
-                    break;
-            }
+            int fisrtSkip = 1;
+            String statement = "SELECT * FROM fish ORDER BY ";
+            statement += jrs.getMetaData().getColumnName(column + fisrtSkip)
+                    + " " + (sortOrder == ASCENDING ? "ASC" : "DESC");
+
+            jrs.setCommand(statement);
+
             jrs.execute();
             jrs.next();
             tableModel.fireTableDataChanged();
+            sortedInfo[column - 1] = sortOrder;
             return true;
         } catch (SQLException e1) {
             e1.printStackTrace();
