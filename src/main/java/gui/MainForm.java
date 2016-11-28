@@ -202,7 +202,7 @@ public class MainForm extends JFrame {
     }
 
     private Fish getFish(int rowNum) {
-        return fishController.getFish(rowNum);
+        return fishController.getLine(rowNum);
     }
 
     @Override

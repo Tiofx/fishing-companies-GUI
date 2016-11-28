@@ -7,159 +7,48 @@ import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.sql.SQLException;
 
-public class FishController {
-    private JdbcRowSet jrs;
-    private BaseTableModel tableModel;
-    private JTable view;
+public class FishController extends AbstractController<Fish> {
 
     public FishController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        this.jrs = jrs;
-        this.tableModel = tableModel;
-        this.view = view;
+        super(jrs, tableModel, view);
     }
 
-    protected void setFish(Fish newFish) throws SQLException {
-        if (newFish.getId() != -1) {
-            jrs.updateInt(1, newFish.getId());
+    @Override
+    protected void setLine(Fish newLine) throws SQLException {
+        if (newLine.getId() != -1) {
+            jrs.updateInt(1, newLine.getId());
         }
-        jrs.updateString(2, newFish.getName());
-        jrs.updateInt(3, newFish.getPrice());
+        jrs.updateString(2, newLine.getName());
+        jrs.updateInt(3, newLine.getPrice());
     }
 
-    public boolean insert(Fish fish) {
-        try {
-            jrs.moveToInsertRow();
-
-            setFish(fish);
-
-            jrs.insertRow();
-            jrs.beforeFirst();
-
-            return true;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return false;
-        }
+    @Override
+    protected Fish getLine() throws SQLException {
+        return new Fish(jrs.getInt(1), jrs.getString(2), jrs.getInt(3));
     }
 
-    public boolean edit(int oldFish, Fish newFish) {
-        try {
-            jrs.absolute(oldFish);
+    @Override
+    protected int getSkipNumber() {
+        return Fish.PK_NUMBER;
+    }
 
-            setFish(newFish);
-
-            jrs.updateRow();
-            return true;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return false;
+    @Override
+    protected void setCommandParameter(int numParameter, int numModelField, Fish searchFields) throws SQLException {
+        switch (numModelField) {
+            case 1:
+                jrs.setInt(numParameter, searchFields.getId());
+                break;
+            case 2:
+                jrs.setString(numParameter, searchFields.getName());
+                break;
+            case 3:
+                jrs.setInt(numParameter, searchFields.getPrice());
+                break;
         }
     }
 
-    public boolean delete(int rowNum) {
-        try {
-            jrs.absolute(rowNum);
-            jrs.deleteRow();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public Fish getFish(int rowNum) {
-        Fish fish = null;
-        try {
-            jrs.absolute(rowNum);
-            fish = new Fish(jrs.getInt(1), jrs.getString(2), jrs.getInt(3));
-            return fish;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return fish;
-        }
-    }
-
-    public boolean find(Boolean[] mask, Fish searchFields) {
-        try {
-            int n = jrs.getMetaData().getColumnCount();
-            String preparedStatement = formPreparedStatement(mask, n);
-            jrs.setCommand(preparedStatement);
-
-            int firstSkip = 1;
-            int numPar = 1;
-            for (int i = firstSkip; i < n; i++) {
-                if (mask[i - firstSkip]) {
-                    switch (i + 1) {
-                        case 1:
-                            jrs.setInt(numPar, searchFields.getId());
-                            break;
-                        case 2:
-                            jrs.setString(numPar, searchFields.getName());
-                            break;
-                        case 3:
-                            jrs.setInt(numPar, searchFields.getPrice());
-                            break;
-                    }
-                    numPar++;
-                }
-            }
-
-            jrs.execute();
-            jrs.next();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    protected String formPreparedStatement(Boolean[] f, int columnCount) {
-        String stt = "SELECT * FROM fish WHERE ";
-        String condition = "";
-
-        int firstSkip = 1;
-
-        for (int i = firstSkip; i < columnCount; i++) {
-            try {
-                if (f[i - firstSkip])
-                    condition += jrs.getMetaData().getColumnName(i + 1) + " = ?  ";
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        condition = condition.trim();
-        condition = condition.replaceAll("  ", " AND ");
-        stt += condition;
-        return stt;
-    }
-
-    protected final static int UNSORTED = 0;
-    protected final static int DESCENDING = -1;
-    protected final static int ASCENDING = 1;
-    protected int[] sortedInfo = {UNSORTED, UNSORTED};
-
-    public boolean sort(int column) {
-        return sort(column, sortedInfo[column - 1] != ASCENDING ? ASCENDING : DESCENDING);
-    }
-
-    public boolean sort(int column, int sortOrder) {
-        try {
-            int fisrtSkip = 1;
-            String statement = "SELECT * FROM fish ORDER BY ";
-            statement += jrs.getMetaData().getColumnName(column + fisrtSkip)
-                    + " " + (sortOrder == ASCENDING ? "ASC" : "DESC");
-
-            jrs.setCommand(statement);
-
-            jrs.execute();
-            jrs.next();
-            tableModel.fireTableDataChanged();
-            sortedInfo[column - 1] = sortOrder;
-            return true;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return false;
-        }
+    @Override
+    protected String getTableName() {
+        return "fish";
     }
 }

@@ -1,6 +1,7 @@
 package models;
 
 public class Fish {
+    public final static int PK_NUMBER = 1;
     private int id;
     private String name;
     private int price;
