@@ -27,6 +27,7 @@ public class MainForm extends JFrame {
     private JButton findButton;
 
     private JButton exitButton;
+    private JButton resetButton;
 
     public MainForm() throws HeadlessException {
         super("fishing companies");
@@ -182,6 +183,10 @@ public class MainForm extends JFrame {
                 tb.fireTableDataChanged();
             }
         });
+
+        resetButton.addActionListener(e -> {
+            fishController.reset();
+        });
     }
 
 
@@ -194,6 +199,7 @@ public class MainForm extends JFrame {
     }
 
     private boolean insertIntoFishTable(Fish fish) {
+        fishController.reset();
         return fishController.insert(fish);
     }
 

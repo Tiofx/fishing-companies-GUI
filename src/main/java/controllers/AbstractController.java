@@ -101,7 +101,7 @@ public abstract class AbstractController<T> {
                     numPar++;
                 }
             }
-
+            
             jrs.execute();
             jrs.next();
             return true;
@@ -150,7 +150,7 @@ public abstract class AbstractController<T> {
     }
 
     protected String formPreparedStatement(Boolean[] f, int columnCount) {
-        String stt = baseStatement;
+        String stt = baseStatement + " WHERE ";
         String condition = "";
 
         for (int i = getSkipNumber(); i < columnCount; i++) {
