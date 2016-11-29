@@ -102,6 +102,10 @@ public abstract class AbstractController<T> {
         }
     }
 
+    public boolean deleteSelectedInTable() {
+        return delete(view.getSelectedRow() + 1);
+    }
+
     public final boolean delete(int rowNum) {
         try {
             jrs.absolute(rowNum);
@@ -157,6 +161,10 @@ public abstract class AbstractController<T> {
             e1.printStackTrace();
             return false;
         }
+    }
+
+    public void update() {
+        tableModel.fireTableDataChanged();
     }
 
     public final boolean reset() {

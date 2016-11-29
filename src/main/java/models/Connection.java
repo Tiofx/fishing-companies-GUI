@@ -22,12 +22,13 @@ public class Connection {
     protected java.sql.Connection connection;
     protected Statement stmt;
     protected JdbcRowSet fishJRS;
+    protected JdbcRowSet shipJRS;
 
     public Connection() {
         this("com.mysql.jdbc.Driver",
                 "localhost",
                 "3306",
-                "fishingCompanies",
+                "fishingCompanies2",
                 "root",
                 "root");
     }
@@ -87,5 +88,16 @@ public class Connection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public JdbcRowSet getShipJRS() {
+        try {
+            shipJRS = new JdbcRowSetImpl(connection);
+            shipJRS.setCommand("select * from ship");
+            shipJRS.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shipJRS;
     }
 }
