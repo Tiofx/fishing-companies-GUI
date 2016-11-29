@@ -1,12 +1,13 @@
 package controllers;
 
+import models.sql.ISqlModel;
 import models.table.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.sql.SQLException;
 
-public abstract class AbstractController<T> {
+public abstract class AbstractController<T extends ISqlModel> {
     protected final String baseStatement;
 
     protected JdbcRowSet jrs;

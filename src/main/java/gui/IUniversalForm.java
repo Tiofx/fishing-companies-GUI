@@ -1,8 +1,10 @@
 package gui;
 
+import models.sql.ISqlModel;
+
 import java.util.Arrays;
 
-public interface IUniversalForm<T> {
+public interface IUniversalForm<T extends ISqlModel> {
     T getRecord();
 
     T getRawRecord();
