@@ -1,6 +1,6 @@
 package gui;
 
-import models.Fish;
+import models.sql.Fish;
 
 import javax.swing.*;
 

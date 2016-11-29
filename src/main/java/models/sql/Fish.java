@@ -1,4 +1,4 @@
-package models;
+package models.sql;
 
 public class Fish {
     public final static int PK_NUMBER = 1;

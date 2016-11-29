@@ -2,7 +2,7 @@ package gui;
 
 import controllers.FishController;
 import models.Connection;
-import models.Fish;
+import models.sql.Fish;
 import models.table.BaseTableModel;
 
 import javax.swing.*;
@@ -130,8 +130,18 @@ public class MainForm extends JFrame {
 
     private void addListeners() {
         addButton.addActionListener(e -> {
-            FishForm inputPanel = new FishForm();
-            makeOperation("add", inputPanel, a -> fishController.insert(a));
+//            int i = tabbedPane.getSelectedIndex();
+//            makeOperation("add", getInputPanel(i), a -> controllers[i].insert(a));
+            switch (tabbedPane.getSelectedIndex()) {
+                case 0:
+                    FishForm inputPanel = new FishForm();
+                    makeOperation("add", inputPanel, a -> fishController.insert(a));
+                    break;
+                case 1:
+//                    CaptainForm inputPanel = new CaptainForm();
+//                    makeOperation("add", inputPanel, a -> captainController.insert(a));
+                    break;
+            }
         });
 
         deleteButton.addActionListener(e -> {

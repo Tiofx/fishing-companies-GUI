@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Fish;
+import models.sql.Fish;
 import models.table.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
