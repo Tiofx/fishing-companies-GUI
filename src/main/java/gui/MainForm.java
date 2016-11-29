@@ -98,7 +98,7 @@ public class MainForm extends JFrame {
                 result = new ShipController(tableDate, tb, table);
                 break;
         }
-        
+
         scroll.setViewportView(table);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -192,11 +192,12 @@ public class MainForm extends JFrame {
             }
         });
 
-
         resetButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
             allControllers[i].reset();
         });
+
+        exitButton.addActionListener(e -> System.exit(0));
     }
 
     @Override
