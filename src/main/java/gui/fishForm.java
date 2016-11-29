@@ -53,11 +53,10 @@ public class FishForm extends JPanel implements IUniversalForm<Fish> {
     public boolean canGetPrice() {
         try {
             Integer.parseUnsignedInt(priceTxt.getText());
+            return true;
         } catch (NumberFormatException e) {
             return false;
         }
-
-        return true;
     }
 
 
