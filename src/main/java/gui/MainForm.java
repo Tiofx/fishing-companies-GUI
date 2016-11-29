@@ -101,7 +101,6 @@ public class MainForm extends JFrame {
 //        return fishController;
     }
 
-    //    private void makeOperation(String nameOperation, IUniversalForm<? extends ISqlModel> inputPanel, Function<? extends ISqlModel, Boolean> func) {
     private <T> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
         do {
             int result = JOptionPane.showConfirmDialog(null,
@@ -120,10 +119,7 @@ public class MainForm extends JFrame {
                                 "This record wasn't " + nameOperation + "ed!!!",
                                 nameOperation + " problem",
                                 JOptionPane.WARNING_MESSAGE);
-                    } else {
-//                        tb.fireTableDataChanged();
                     }
-
                     break;
                 } else {
 //                    JOptionPane.showMessageDialog(
@@ -155,14 +151,6 @@ public class MainForm extends JFrame {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = getInputPanel(i);
             makeOperation("add", inputForm, a -> allControllers[i].insert(a));
-//            switch (i) {
-//                case 0:
-//                    makeOperation("add", new FishForm(), a -> ((FishController) allControllers[i]).insert(a));
-//                    break;
-//                case 1:
-//                    makeOperation("add", new ShipForm(), a -> ((ShipController) allControllers[i]).insert(a));
-//                    break;
-//            }
             allControllers[i].update();
         });
 
@@ -177,18 +165,6 @@ public class MainForm extends JFrame {
             IUniversalForm inputForm = getInputPanel(i);
             inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
             makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
-//            switch (i) {
-//                case 0:
-//                    FishForm inputPanel = new FishForm();
-//                    inputPanel.setRecord(((FishController) allControllers[i]).getRecordSelectedInTable());
-//                    makeOperation("edit", new FishForm(), a -> ((FishController) allControllers[i]).editSelectedInTable(a));
-//                    break;
-//                case 1:
-//                    ShipForm inputPanel2 = new ShipForm();
-//                    inputPanel2.setRecord(((ShipController) allControllers[i]).getRecordSelectedInTable());
-//                    makeOperation("edit", new ShipForm(), a -> ((ShipController) allControllers[i]).editSelectedInTable(a));
-//                    break;
-//            }
             allControllers[i].update();
         });
 
