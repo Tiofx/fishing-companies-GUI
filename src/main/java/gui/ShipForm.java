@@ -19,6 +19,14 @@ public class ShipForm extends JPanel implements IUniversalForm<Ship> {
     }
 
     @Override
+    public Ship getRawRecord() {
+        Ship rawShip = new Ship();
+        if (canGetName())
+            rawShip.setName(getName());
+        return rawShip;
+    }
+
+    @Override
     public void setRecord(Ship record) {
         nameTxt.setText(record.getName());
     }

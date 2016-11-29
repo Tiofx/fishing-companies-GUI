@@ -5,6 +5,8 @@ import java.util.Arrays;
 public interface IUniversalForm<T> {
     T getRecord();
 
+    T getRawRecord();
+
     void setRecord(T record);
 
     Boolean[] canGets();

@@ -20,22 +20,7 @@ public class FishForm extends JPanel implements IUniversalForm<Fish> {
     }
 
     @Override
-    public void setRecord(Fish record) {
-        nameTxt.setText(record.getName());
-        priceTxt.setText(Integer.toString(record.getPrice()));
-    }
-
-
-    public String getName() {
-        return nameTxt.getText();
-    }
-
-    public Integer getPrice() {
-        return Integer.parseUnsignedInt(priceTxt.getText());
-    }
-
-
-    public Fish getRawFish() {
+    public Fish getRawRecord() {
         Fish rawFish = new Fish();
         if (canGetName()) {
             rawFish.setName(getName());
@@ -44,6 +29,21 @@ public class FishForm extends JPanel implements IUniversalForm<Fish> {
             rawFish.setPrice(getPrice());
         }
         return rawFish;
+    }
+
+
+    @Override
+    public void setRecord(Fish record) {
+        nameTxt.setText(record.getName());
+        priceTxt.setText(Integer.toString(record.getPrice()));
+    }
+
+    public String getName() {
+        return nameTxt.getText();
+    }
+
+    public Integer getPrice() {
+        return Integer.parseUnsignedInt(priceTxt.getText());
     }
 
     public boolean canGetName() {
