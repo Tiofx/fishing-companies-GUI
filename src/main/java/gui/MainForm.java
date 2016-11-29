@@ -1,8 +1,6 @@
 package gui;
 
-import controllers.AbstractController;
-import controllers.FishController;
-import controllers.ShipController;
+import controllers.*;
 import models.Connection;
 import models.table.BaseTableModel;
 
@@ -97,6 +95,15 @@ public class MainForm extends JFrame {
             case 1:
                 result = new ShipController(tableDate, tb, table);
                 break;
+            case 2:
+                result = new CaptainController(tableDate, tb, table);
+                break;
+            case 3:
+                result = new InventoryController(tableDate, tb, table);
+                break;
+            case 4:
+                result = new FishRegionController(tableDate, tb, table);
+                break;
         }
 
         scroll.setViewportView(table);
@@ -148,6 +155,12 @@ public class MainForm extends JFrame {
                 return new FishForm();
             case 1:
                 return new ShipForm();
+            case 2:
+                return new CaptainForm();
+            case 3:
+                return new InventoryForm();
+            case 4:
+                return new FishRegionForm();
             default:
                 return null;
         }

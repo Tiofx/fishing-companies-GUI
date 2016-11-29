@@ -22,7 +22,7 @@ public class Connection {
     protected java.sql.Connection connection;
     protected Statement stmt;
 
-    protected final String[] tablesName = {"fish", "ship"};
+    protected final String[] tablesName = {"fish", "ship", "captain", "inventory", "fishRegion"};
     protected final int tablesNumber = tablesName.length;
 
     public Connection() {
