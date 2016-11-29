@@ -43,7 +43,7 @@ public class CaptainForm extends JPanel implements IUniversalForm<Captain> {
     }
 
     public boolean canGetFio() {
-        return getFio().split(" ").length > 3 && getFio().length() > 0;
+        return getFio().split(" ").length == 2 && getFio().length() > 0;
     }
 
     public boolean canGetExperience() {

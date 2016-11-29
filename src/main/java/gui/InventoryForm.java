@@ -69,7 +69,7 @@ public class InventoryForm extends JPanel implements IUniversalForm<Inventory> {
     }
 
     public String getName() {
-        return nameTxt.getName();
+        return nameTxt.getText();
     }
 
     public int getLifeTime() {
