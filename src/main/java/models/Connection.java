@@ -21,8 +21,9 @@ public class Connection {
 
     protected java.sql.Connection connection;
     protected Statement stmt;
-    protected JdbcRowSet fishJRS;
-    protected JdbcRowSet shipJRS;
+
+    protected final String[] tablesName = {"fish", "ship"};
+    protected final int tablesNumber = tablesName.length;
 
     public Connection() {
         this("com.mysql.jdbc.Driver",
@@ -57,9 +58,6 @@ public class Connection {
                     ResultSet.CONCUR_UPDATABLE);
 
 //            ResultSet fishRS = stmt.executeQuery("SELECT * FROM fish");
-            fishJRS = new JdbcRowSetImpl(connection);
-            fishJRS.setCommand("SELECT * FROM fish");
-            fishJRS.execute();
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -68,36 +66,37 @@ public class Connection {
         }
     }
 
+    public String[] getTablesName() {
+        return tablesName;
+    }
+
+    public int getTablesNumber() {
+        return tablesNumber;
+    }
+
     public java.sql.Connection getConnection() {
         return connection;
     }
 
-    public Statement getStmt() {
-        return stmt;
-    }
+    public JdbcRowSet getJRS(String tableName) {
+        try {
+            JdbcRowSet result = new JdbcRowSetImpl(connection);
+            result.setCommand("SELECT * FROM " + tableName);
+            result.execute();
 
-    public JdbcRowSet getFishJRS() {
-        return fishJRS;
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void close() {
         try {
-            fishJRS.close();
             stmt.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public JdbcRowSet getShipJRS() {
-        try {
-            shipJRS = new JdbcRowSetImpl(connection);
-            shipJRS.setCommand("select * from ship");
-            shipJRS.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return shipJRS;
     }
 }

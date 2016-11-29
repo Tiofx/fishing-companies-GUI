@@ -15,12 +15,9 @@ import java.sql.SQLException;
 import java.util.function.Function;
 
 public class MainForm extends JFrame {
-//    private FishController fishController;
 
     private Connection connection;
-    //    private AbstractController[] allControllers = new AbstractController[2];
-    private AbstractController[] allControllers = new AbstractController[2];
-
+    private final AbstractController[] allControllers;
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -28,9 +25,9 @@ public class MainForm extends JFrame {
     private JButton deleteButton;
     private JButton editButton;
     private JButton findButton;
-
     private JButton exitButton;
     private JButton resetButton;
+
 
     public MainForm() throws HeadlessException {
         super("fishing companies");
@@ -46,8 +43,12 @@ public class MainForm extends JFrame {
         connection = new Connection();
         connection.startConnection();
 
-        addTableView(0, connection.getFishJRS());
-        addTableView(1, connection.getShipJRS());
+        allControllers = new AbstractController[connection.getTablesNumber()];
+
+        for (int i = 0; i < connection.getTablesNumber(); i++) {
+            allControllers[i] = addTableView(i, connection.getTablesName()[i], connection);
+        }
+
         addListeners();
     }
 
@@ -57,31 +58,28 @@ public class MainForm extends JFrame {
         frame.pack();
     }
 
-    private void addTableView(int i, JdbcRowSet tableDate) {
+    private AbstractController addTableView(int i, String tableName, Connection connection) {
+        return addTableView(i, tableName, connection.getJRS(tableName));
+    }
+
+    private AbstractController addTableView(int i, JdbcRowSet tableDate) {
         try {
-            addTableView(i, tableDate.getMetaData().getTableName(1), tableDate);
+            return addTableView(i, tableDate.getMetaData().getTableName(1), tableDate);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    private void addTableView(int i, String tableName, JdbcRowSet tableDate) {
+    private AbstractController addTableView(int i, String tableName, JdbcRowSet tableDate) {
+        AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
         BaseTableModel tb = new BaseTableModel(tableDate);
         JTable table = new JTable(tb);
+
         table.setAutoCreateRowSorter(false);
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
-
-        switch (i) {
-            case 0:
-                allControllers[i] = new FishController(tableDate, tb, table);
-                break;
-            case 1:
-                allControllers[i] = new ShipController(tableDate, tb, table);
-                break;
-        }
-
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -92,13 +90,22 @@ public class MainForm extends JFrame {
             }
         });
 
+        switch (i) {
+            case 0:
+                result = new FishController(tableDate, tb, table);
+                break;
+            case 1:
+                result = new ShipController(tableDate, tb, table);
+                break;
+        }
+        
         scroll.setViewportView(table);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         tabbedPane.addTab(tableName, scroll);
 
-//        return fishController;
+        return result;
     }
 
     private <T> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
