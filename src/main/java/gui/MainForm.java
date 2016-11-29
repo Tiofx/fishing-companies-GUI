@@ -4,6 +4,7 @@ import controllers.AbstractController;
 import controllers.FishController;
 import controllers.ShipController;
 import models.Connection;
+import models.sql.ISqlModel;
 import models.table.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -18,8 +19,7 @@ public class MainForm extends JFrame {
 //    private FishController fishController;
 
     private Connection connection;
-    //    private AbstractController[] allControllers = new AbstractController[2];
-    private AbstractController[] allControllers = new AbstractController[2];
+    private AbstractController<? extends ISqlModel>[] allControllers = new AbstractController[2];
 
 
     private JPanel rootPanel;
@@ -101,7 +101,7 @@ public class MainForm extends JFrame {
 //        return fishController;
     }
 
-    private <T> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
+    private <T extends ISqlModel> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
         do {
             int result = JOptionPane.showConfirmDialog(null,
                     inputPanel,
@@ -135,7 +135,7 @@ public class MainForm extends JFrame {
 
     }
 
-    private IUniversalForm getInputPanel(int i) {
+    private IUniversalForm<? extends ISqlModel> getInputPanel(int i) {
         switch (i) {
             case 0:
                 return new FishForm();
@@ -149,13 +149,14 @@ public class MainForm extends JFrame {
     private void addListeners() {
         addButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            IUniversalForm inputForm = getInputPanel(i);
+            IUniversalForm<? extends ISqlModel> inputForm = getInputPanel(i);
             makeOperation("add", inputForm, a -> allControllers[i].insert(a));
             allControllers[i].update();
         });
 
         deleteButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
+
             allControllers[i].deleteSelectedInTable();
             allControllers[i].update();
         });
@@ -163,6 +164,7 @@ public class MainForm extends JFrame {
         editButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = getInputPanel(i);
+
             inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
             makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
             allControllers[i].update();
@@ -170,7 +172,7 @@ public class MainForm extends JFrame {
 
         findButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            IUniversalForm inputForm = getInputPanel(i);
+            IUniversalForm<? extends ISqlModel> inputForm = getInputPanel(i);
 
             int result = JOptionPane.showConfirmDialog(null,
                     inputForm,
@@ -179,7 +181,7 @@ public class MainForm extends JFrame {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                Object record = inputForm.getRawRecord();
+                ISqlModel record = inputForm.getRawRecord();
                 allControllers[i].find(inputForm.canGets(), record);
                 allControllers[i].update();
             }
