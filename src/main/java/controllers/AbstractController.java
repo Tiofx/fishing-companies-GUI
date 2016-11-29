@@ -7,7 +7,8 @@ import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.sql.SQLException;
 
-public abstract class AbstractController<T extends ISqlModel> {
+public abstract class AbstractController<T> {
+//public abstract class AbstractController<T extends ISqlModel> {
     protected final String baseStatement;
 
     protected JdbcRowSet jrs;
@@ -207,4 +208,6 @@ public abstract class AbstractController<T extends ISqlModel> {
             sortedInfo[i] = UNSORTED;
         }
     }
+
+
 }
