@@ -1,7 +1,7 @@
 package controllers;
 
 import models.sql.FishRegion;
-import models.table.BaseTableModel;
+import models.gui.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;

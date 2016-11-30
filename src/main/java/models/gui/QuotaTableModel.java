@@ -1,4 +1,4 @@
-package models.table;
+package models.gui;
 
 import com.sun.rowset.JdbcRowSetImpl;
 import controllers.FishRegionController;
@@ -19,10 +19,10 @@ public class QuotaTableModel extends BaseTableModel {
 
         try {
 //            JdbcRowSet res = new JdbcRowSetImpl(DriverManager.getConnection(tableResultSet.getUrl()));
+            // TODO: 30/11/2016 change static connection
             JdbcRowSet res = new JdbcRowSetImpl(Connection.connection);
             res.setCommand("select * from fishRegion");
             res.execute();
-            // TODO: 30/11/2016 change model this
             fishRegion = new FishRegionController(res, null, null);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,6 +34,7 @@ public class QuotaTableModel extends BaseTableModel {
 
         try {
 //            JdbcRowSet res = new JdbcRowSetImpl(DriverManager.getConnection(tableResultSet.getUrl()));
+            // TODO: 30/11/2016 change static connection
             JdbcRowSet res = new JdbcRowSetImpl(Connection.connection);
             res.setCommand("select * from fishRegion");
             res.execute();

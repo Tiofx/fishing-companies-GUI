@@ -2,8 +2,8 @@ package gui;
 
 import controllers.*;
 import models.Connection;
-import models.table.BaseTableModel;
-import models.table.QuotaTableModel;
+import models.gui.BaseTableModel;
+import models.gui.QuotaTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -185,7 +185,7 @@ public class MainForm extends JFrame {
             case 4:
                 return new FishRegionForm();
             case 5:
-                // TODO: 30/11/2016 add quota form
+                return new QuotaForm(connection.getJRS("fishRegion"));
             default:
                 return null;
         }

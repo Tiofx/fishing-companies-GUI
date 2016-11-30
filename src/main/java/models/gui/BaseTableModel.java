@@ -1,4 +1,4 @@
-package models.table;
+package models.gui;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.table.AbstractTableModel;

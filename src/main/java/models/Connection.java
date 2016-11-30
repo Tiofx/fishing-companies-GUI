@@ -19,6 +19,7 @@ public class Connection {
     protected String url;
 
 
+    // TODO: 30/11/2016 change this
     public static java.sql.Connection connection;
     //    protected java.sql.Connection connection;
     protected Statement stmt;
