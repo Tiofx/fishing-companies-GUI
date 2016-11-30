@@ -19,10 +19,11 @@ public class Connection {
     protected String url;
 
 
-    protected java.sql.Connection connection;
+    public static java.sql.Connection connection;
+    //    protected java.sql.Connection connection;
     protected Statement stmt;
 
-    protected final String[] tablesName = {"fish", "ship", "captain", "inventory", "fishRegion"};
+    protected final String[] tablesName = {"fish", "ship", "captain", "inventory", "fishRegion", "quota"};
     protected final int tablesNumber = tablesName.length;
 
     public Connection() {

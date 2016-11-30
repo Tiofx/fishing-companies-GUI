@@ -3,6 +3,7 @@ package gui;
 import controllers.*;
 import models.Connection;
 import models.table.BaseTableModel;
+import models.table.QuotaTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -73,20 +74,23 @@ public class MainForm extends JFrame {
         AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
         BaseTableModel tb = new BaseTableModel(tableDate);
-        JTable table = new JTable(tb);
+        final JTable table;
 
-        table.setAutoCreateRowSorter(false);
-        table.setShowGrid(true);
-        table.setGridColor(Color.GRAY);
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                Point point = e.getPoint();
-                int column = table.columnAtPoint(point);
-
-                allControllers[i].sort(column + 1);
-            }
-        });
+        switch (i) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                table = new JTable(tb);
+                break;
+            case 5:
+                tb = new QuotaTableModel(tableDate);
+                table = new JTable(tb);
+                break;
+            default:
+                table = null;
+        }
 
         switch (i) {
             case 0:
@@ -104,7 +108,25 @@ public class MainForm extends JFrame {
             case 4:
                 result = new FishRegionController(tableDate, tb, table);
                 break;
+            case 5:
+                result = new FishRegionController(tableDate, tb, table);
+                break;
         }
+
+
+        table.setAutoCreateRowSorter(false);
+        table.setShowGrid(true);
+        table.setGridColor(Color.GRAY);
+        table.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Point point = e.getPoint();
+                int column = table.columnAtPoint(point);
+
+                allControllers[i].sort(column + 1);
+            }
+        });
+
 
         scroll.setViewportView(table);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
