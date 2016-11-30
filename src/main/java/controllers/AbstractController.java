@@ -1,6 +1,5 @@
 package controllers;
 
-import models.sql.ISqlModel;
 import models.table.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -8,7 +7,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public abstract class AbstractController<T> {
-//public abstract class AbstractController<T extends ISqlModel> {
+    //public abstract class AbstractController<T extends ISqlModel> {
     protected final String baseStatement;
 
     protected JdbcRowSet jrs;
@@ -119,15 +118,23 @@ public abstract class AbstractController<T> {
         }
     }
 
+    public final boolean fullFind(Boolean[] mask, T searchFields) {
+        return find(mask, searchFields, 0);
+    }
+
     public final boolean find(Boolean[] mask, T searchFields) {
+        return find(mask, searchFields, getSkipNumber());
+    }
+
+    protected final boolean find(Boolean[] mask, T searchFields, int skipNumber) {
         try {
             int n = jrs.getMetaData().getColumnCount();
             String preparedStatement = formPreparedStatement(mask, n);
             jrs.setCommand(preparedStatement);
 
             int numPar = 1;
-            for (int i = getSkipNumber(); i < n; i++) {
-                if (mask[i - getSkipNumber()]) {
+            for (int i = skipNumber; i < n; i++) {
+                if (mask[i - skipNumber]) {
                     setCommandParameter(numPar, i + 1, searchFields);
                     numPar++;
                 }
@@ -185,12 +192,16 @@ public abstract class AbstractController<T> {
     }
 
     protected String formPreparedStatement(Boolean[] f, int columnCount) {
+        return formPreparedStatement(f, columnCount, getSkipNumber());
+    }
+
+    protected String formPreparedStatement(Boolean[] f, int columnCount, int skipNumber) {
         String stt = baseStatement + " WHERE ";
         String condition = "";
 
-        for (int i = getSkipNumber(); i < columnCount; i++) {
+        for (int i = skipNumber; i < columnCount; i++) {
             try {
-                if (f[i - getSkipNumber()])
+                if (f[i - skipNumber])
                     condition += jrs.getMetaData().getColumnName(i + 1) + " = ?  ";
             } catch (SQLException e) {
                 e.printStackTrace();
