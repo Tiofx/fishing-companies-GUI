@@ -146,7 +146,7 @@ public abstract class AbstractController<T> {
     protected final boolean find(Boolean[] mask, T searchFields, int skipNumber) {
         try {
             int n = jrs.getMetaData().getColumnCount();
-            String preparedStatement = formPreparedStatement(mask, n);
+            String preparedStatement = formPreparedStatement(mask, n, skipNumber);
             jrs.setCommand(preparedStatement);
 
             int numPar = 1;
