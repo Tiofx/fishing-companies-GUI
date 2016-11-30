@@ -109,6 +109,7 @@ public class MainForm extends JFrame {
                 result = new FishRegionController(tableDate, tb, table);
                 break;
             case 5:
+                // TODO: 30/11/2016 change this
                 result = new FishRegionController(tableDate, tb, table);
                 break;
         }
@@ -183,6 +184,8 @@ public class MainForm extends JFrame {
                 return new InventoryForm();
             case 4:
                 return new FishRegionForm();
+            case 5:
+                // TODO: 30/11/2016 add quota form
             default:
                 return null;
         }
