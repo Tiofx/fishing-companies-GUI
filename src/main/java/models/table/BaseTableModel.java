@@ -1,19 +1,19 @@
 package models.table;
 
+import javax.sql.rowset.JdbcRowSet;
 import javax.swing.table.AbstractTableModel;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BaseTableModel extends AbstractTableModel {
-    private ResultSet tableResultSet;
-    private int skipFirst;
+    protected JdbcRowSet tableResultSet;
+    protected int skipFirst;
 
-    public BaseTableModel(ResultSet tableResultSet, int skipFirst) {
+    public BaseTableModel(JdbcRowSet tableResultSet, int skipFirst) {
         this.tableResultSet = tableResultSet;
         this.skipFirst = skipFirst;
     }
 
-    public BaseTableModel(ResultSet tableResultSet) {
+    public BaseTableModel(JdbcRowSet tableResultSet) {
         this(tableResultSet, 1);
     }
 

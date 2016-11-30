@@ -30,6 +30,18 @@ public abstract class AbstractController<T> {
         resetSortedInfo();
     }
 
+    public JdbcRowSet getJrs() {
+        return jrs;
+    }
+
+    public BaseTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public JTable getView() {
+        return view;
+    }
+
     protected abstract void updateRecord(T newRecord) throws SQLException;
 
     protected abstract T getRecord() throws SQLException;
