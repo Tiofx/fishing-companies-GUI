@@ -26,7 +26,12 @@ public abstract class AbstractController<T> {
         this.view = view;
 
         baseStatement = "SELECT * FROM " + getTableName();
-        sortedInfo = new int[tableModel.getColumnCount()];
+//        sortedInfo = new int[tableModel.getColumnCount()];
+        try {
+            sortedInfo = new int[jrs.getMetaData().getColumnCount()];
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         resetSortedInfo();
     }
 
