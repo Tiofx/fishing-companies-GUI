@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.function.Function;
 
@@ -109,8 +111,7 @@ public class MainForm extends JFrame {
                 result = new FishRegionController(tableDate, tb, table);
                 break;
             case 5:
-                // TODO: 30/11/2016 change this
-                result = new FishRegionController(tableDate, tb, table);
+                result = new QuotaController(tableDate, tb, table);
                 break;
         }
 
@@ -235,7 +236,13 @@ public class MainForm extends JFrame {
             allControllers[i].reset();
         });
 
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> dispose());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.exit(1);
+            }
+        });
     }
 
     @Override
