@@ -104,7 +104,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         cb.setSelectedItem(record.getFishRegionId());
         placeNameCB.setModel(cb);
-        yearTxt.setText(Integer.toString(record.getYear().getYear()));
+        yearTxt.setText(Integer.toString(record.getYear().getYear() + 1900));
     }
 
     @Override
@@ -129,11 +129,11 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     }
 
     public int getFishRegionId() {
-        return (int) placeNameCB.getSelectedItem();
+        return ((FishRegion) placeNameCB.getSelectedItem()).getId();
     }
 
     public java.sql.Date getYear() {
-        return new java.sql.Date(getYearValue());
+        return new java.sql.Date(getYearValue() - 1900, 0, 0);
     }
 
     protected int getYearValue() {
