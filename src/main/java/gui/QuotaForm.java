@@ -51,6 +51,9 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         add(rootPanel);
         this.fishRegion = fishRegion;
 
+        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
+        placeNameCB.setModel(cb);
+
         placeNameCB.setRenderer(new ComboRenderer());
         editButton.addActionListener(new ActionListener() {
             @Override
@@ -76,6 +79,8 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
 
             }
         });
+
+
     }
 
     public QuotaForm(JdbcRowSet jrs) {
