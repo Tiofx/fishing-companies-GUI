@@ -1,0 +1,55 @@
+package controllers;
+
+import models.gui.BaseTableModel;
+import models.sql.FishCatch;
+
+import javax.sql.rowset.JdbcRowSet;
+import javax.swing.*;
+import java.sql.SQLException;
+
+public class FishCatchController extends AbstractController<FishCatch> {
+    public FishCatchController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
+        super(jrs, tableModel, view);
+    }
+
+    @Override
+    protected void updateRecord(FishCatch newRecord) throws SQLException {
+        if (newRecord.getId() != -1) {
+            jrs.updateInt(1, newRecord.getId());
+        }
+        jrs.updateInt(2, newRecord.getVoyageId());
+        jrs.updateInt(3, newRecord.getFishId());
+        jrs.updateInt(4, newRecord.getWeight());
+    }
+
+    @Override
+    protected FishCatch getRecord() throws SQLException {
+        return new FishCatch(jrs.getInt(1), jrs.getInt(2), jrs.getInt(3), jrs.getInt(4));
+    }
+
+    @Override
+    protected int getSkipNumber() {
+        return 1;
+    }
+
+    @Override
+    protected void setCommandParameter(int numParameter, int numModelField, FishCatch searchFields) throws SQLException {
+        switch (numModelField) {
+            case 1:
+                jrs.setInt(numParameter, searchFields.getId());
+                break;
+            case 2:
+                jrs.setInt(numParameter, searchFields.getVoyageId());
+                break;
+            case 3:
+                jrs.setInt(numParameter, searchFields.getFishId());
+                break;
+            case 4:
+                jrs.setInt(numParameter, searchFields.getWeight());
+                break;
+            default:
+                throw new SQLException();
+        }
+
+    }
+}
