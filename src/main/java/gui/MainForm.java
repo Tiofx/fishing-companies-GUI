@@ -58,11 +58,11 @@ public class MainForm extends JFrame {
     }
 
     private void fullFactory() {
-        formFactory.add(CaptainController.class, () -> new CaptainForm());
-        formFactory.add(FishController.class, () -> new FishForm());
-        formFactory.add(FishRegionController.class, () -> new FishRegionForm());
-        formFactory.add(InventoryController.class, () -> new InventoryForm());
-        formFactory.add(ShipController.class, () -> new ShipForm());
+        formFactory.add(CaptainController.class, CaptainForm::new);
+        formFactory.add(FishController.class, FishForm::new);
+        formFactory.add(FishRegionController.class, FishRegionForm::new);
+        formFactory.add(InventoryController.class, InventoryForm::new);
+        formFactory.add(ShipController.class, ShipForm::new);
         formFactory.add(QuotaController.class, () -> new QuotaForm(connection.getJRS("fishRegion")));
     }
 
