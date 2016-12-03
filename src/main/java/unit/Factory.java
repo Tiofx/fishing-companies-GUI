@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public class Factory<T, R> {
     protected final Map<T, Supplier<? extends R>> creators = new HashMap<>();
 
-    public R getForm(T id) {
+    public R getInstance(T id) {
         if (creators.containsKey(id)) {
             return creators.get(id).get();
         } else throw new NotImplementedException();
