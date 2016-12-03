@@ -4,6 +4,7 @@ import controllers.*;
 import models.Connection;
 import models.gui.BaseTableModel;
 import models.gui.QuotaTableModel;
+import unit.FormFactory;
 import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -20,6 +21,7 @@ public class MainForm extends JFrame {
 
     private Connection connection;
     private final AbstractController[] allControllers;
+    private final FormFactory<Class> formFactory = new FormFactory<>();
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -51,7 +53,17 @@ public class MainForm extends JFrame {
             allControllers[i] = addTableView(i, connection.getTablesName()[i], connection);
         }
 
+        fullFactory();
         addListeners();
+    }
+
+    private void fullFactory() {
+        formFactory.add(CaptainController.class, () -> new CaptainForm());
+        formFactory.add(FishController.class, () -> new FishForm());
+        formFactory.add(FishRegionController.class, () -> new FishRegionForm());
+        formFactory.add(InventoryController.class, () -> new InventoryForm());
+        formFactory.add(ShipController.class, () -> new ShipForm());
+        formFactory.add(QuotaController.class, () -> new QuotaForm(connection.getJRS("fishRegion")));
     }
 
     public static void main(String[] args) {
@@ -174,29 +186,10 @@ public class MainForm extends JFrame {
 
     }
 
-    private IUniversalForm getInputPanel(int i) {
-        switch (i) {
-            case 0:
-                return new FishForm();
-            case 1:
-                return new ShipForm();
-            case 2:
-                return new CaptainForm();
-            case 3:
-                return new InventoryForm();
-            case 4:
-                return new FishRegionForm();
-            case 5:
-                return new QuotaForm(connection.getJRS("fishRegion"));
-            default:
-                return null;
-        }
-    }
-
     private void addListeners() {
         addButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            IUniversalForm inputForm = getInputPanel(i);
+            IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
             makeOperation("add", inputForm, a -> allControllers[i].insert(a));
             allControllers[i].update();
         });
@@ -209,7 +202,7 @@ public class MainForm extends JFrame {
 
         editButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            IUniversalForm inputForm = getInputPanel(i);
+            IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
             inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
             makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
             allControllers[i].update();
@@ -217,7 +210,7 @@ public class MainForm extends JFrame {
 
         findButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            IUniversalForm inputForm = getInputPanel(i);
+            IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
 
             int result = JOptionPane.showConfirmDialog(null,
                     inputForm,
