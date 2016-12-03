@@ -18,7 +18,7 @@ public class QuotaController extends AbstractController<Quota> {
             jrs.updateInt(1, newRecord.getId());
         }
         jrs.updateInt(2, newRecord.getFishRegionId());
-        // TODO: 02/12/2016 refatoring
+        // TODO: 02/12/2016 refactoring
         jrs.updateShort(3, (short) (newRecord.getYear().getYear() + 1900));
     }
 

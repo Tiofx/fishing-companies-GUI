@@ -4,6 +4,7 @@ import controllers.FishRegionController;
 import models.gui.FishRegionComboBoxModel;
 import models.sql.FishRegion;
 import models.sql.Quota;
+import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -34,13 +35,12 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
             }
 
             if (value instanceof FishRegion && isSelected) {
-//                list.setToolTipText(value.toString());
-//                setText(((FishRegion) value).getPlaceName());
-
+                list.setToolTipText(value.toString());
                 setText(value.toString());
             } else if (!(value instanceof FishRegion) && isSelected) {
                 list.setToolTipText("none :(");
             }
+
             return c;
         }
     }

@@ -236,6 +236,4 @@ public abstract class AbstractController<T> {
             sortedInfo[i] = UNSORTED;
         }
     }
-
-
 }

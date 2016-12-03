@@ -1,6 +1,7 @@
 package gui;
 
 import models.sql.Fish;
+import unit.IUniversalForm;
 
 import javax.swing.*;
 
