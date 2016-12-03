@@ -1,7 +1,7 @@
 package controllers;
 
-import models.sql.Captain;
 import models.gui.BaseTableModel;
+import models.sql.Captain;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -25,11 +25,6 @@ public class CaptainController extends AbstractController<Captain> {
     @Override
     protected Captain getRecord() throws SQLException {
         return new Captain(jrs.getInt(1), jrs.getString(2), jrs.getInt(3));
-    }
-
-    @Override
-    protected int getSkipNumber() {
-        return Captain.PK_NUMBER;
     }
 
     @Override

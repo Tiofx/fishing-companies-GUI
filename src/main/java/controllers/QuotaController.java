@@ -27,11 +27,6 @@ public class QuotaController extends AbstractController<Quota> {
     }
 
     @Override
-    protected int getSkipNumber() {
-        return Quota.PK_NUMBER;
-    }
-
-    @Override
     protected void setCommandParameter(int numParameter, int numModelField, Quota searchFields) throws SQLException {
         switch (numModelField) {
             case 1:

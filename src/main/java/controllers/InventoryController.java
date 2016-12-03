@@ -28,11 +28,6 @@ public class InventoryController extends AbstractController<Inventory> {
     }
 
     @Override
-    protected int getSkipNumber() {
-        return Inventory.PK_NUMBER;
-    }
-
-    @Override
     protected void setCommandParameter(int numParameter, int numModelField, Inventory searchFields) throws SQLException {
         switch (numModelField) {
             case 1:

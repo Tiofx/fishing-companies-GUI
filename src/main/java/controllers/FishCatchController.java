@@ -28,11 +28,6 @@ public class FishCatchController extends AbstractController<FishCatch> {
     }
 
     @Override
-    protected int getSkipNumber() {
-        return 1;
-    }
-
-    @Override
     protected void setCommandParameter(int numParameter, int numModelField, FishCatch searchFields) throws SQLException {
         switch (numModelField) {
             case 1:

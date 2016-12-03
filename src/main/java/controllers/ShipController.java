@@ -1,7 +1,7 @@
 package controllers;
 
-import models.sql.Ship;
 import models.gui.BaseTableModel;
+import models.sql.Ship;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -23,11 +23,6 @@ public class ShipController extends AbstractController<Ship> {
     @Override
     protected Ship getRecord() throws SQLException {
         return new Ship(jrs.getInt(1), jrs.getString(2));
-    }
-
-    @Override
-    protected int getSkipNumber() {
-        return Ship.PK_NUMBER;
     }
 
     @Override

@@ -27,11 +27,6 @@ public class FishRegionController extends AbstractController<FishRegion> {
     }
 
     @Override
-    protected int getSkipNumber() {
-        return FishRegion.PK_NUMBER;
-    }
-
-    @Override
     protected void setCommandParameter(int numParameter, int numModelField, FishRegion searchFields) throws SQLException {
         switch (numModelField) {
             case 1:

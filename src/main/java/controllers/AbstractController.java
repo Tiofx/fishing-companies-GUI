@@ -47,11 +47,13 @@ public abstract class AbstractController<T> {
         return view;
     }
 
+    protected int getSkipNumber() {
+        return 1;
+    }
+
     protected abstract void updateRecord(T newRecord) throws SQLException;
 
     protected abstract T getRecord() throws SQLException;
-
-    protected abstract int getSkipNumber();
 
     protected abstract void setCommandParameter(int numParameter, int numModelField, T searchFields) throws SQLException;
 
