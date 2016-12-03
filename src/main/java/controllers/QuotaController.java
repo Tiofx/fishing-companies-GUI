@@ -18,13 +18,12 @@ public class QuotaController extends AbstractController<Quota> {
             jrs.updateInt(1, newRecord.getId());
         }
         jrs.updateInt(2, newRecord.getFishRegionId());
-        // TODO: 02/12/2016 refactoring
-        jrs.updateShort(3, (short) (newRecord.getYear().getYear() + 1900));
+        jrs.updateShort(3, newRecord.getYear());
     }
 
     @Override
     protected Quota getRecord() throws SQLException {
-        return new Quota(jrs.getInt(1), jrs.getInt(2), jrs.getDate(3));
+        return new Quota(jrs.getInt(1), jrs.getInt(2), jrs.getShort(3));
     }
 
     @Override
@@ -42,7 +41,7 @@ public class QuotaController extends AbstractController<Quota> {
                 jrs.setInt(numParameter, searchFields.getFishRegionId());
                 break;
             case 3:
-                jrs.setShort(numParameter, (short) (searchFields.getYear().getYear() + 1900));
+                jrs.setShort(numParameter, searchFields.getYear());
                 break;
             default:
                 throw new SQLException();
