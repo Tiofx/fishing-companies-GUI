@@ -10,10 +10,7 @@ import unit.IUniversalForm;
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 public class MainForm extends JFrame {
@@ -133,6 +130,19 @@ public class MainForm extends JFrame {
         table.setAutoCreateRowSorter(false);
         table.setShowGrid(true);
         table.setGridColor(Color.GRAY);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int i = tabbedPane.getSelectedIndex();
+                    IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
+                    inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
+                    unit.Dialog.makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
+                    allControllers[i].update();
+                }
+                super.mouseClicked(e);
+            }
+        });
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -153,8 +163,27 @@ public class MainForm extends JFrame {
         return result;
     }
 
-
     private void addListeners() {
+        addButton.setMnemonic(KeyEvent.VK_N);
+        editButton.setMnemonic(KeyEvent.VK_E);
+        findButton.setMnemonic(KeyEvent.VK_F);
+        resetButton.setMnemonic(KeyEvent.VK_R);
+        deleteButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
+        deleteButton.getActionMap().put("delete", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("sfd");
+                deleteButton.getActionListeners()[0].actionPerformed(e);
+            }
+        });
+        addButton.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_N && ke.isAltDown()) {
+                    addButton.getActionListeners()[0].actionPerformed(null);
+                }
+            }
+        });
         addButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
@@ -164,7 +193,7 @@ public class MainForm extends JFrame {
 
         deleteButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
-            allControllers[i].deleteSelectedInTable();
+            while (allControllers[i].deleteSelectedInTable()) ;
             allControllers[i].update();
         });
 
@@ -180,7 +209,7 @@ public class MainForm extends JFrame {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
 
-            int result = JOptionPane.showConfirmDialog(null,
+            int result = JOptionPane.showConfirmDialog(this,
                     inputForm,
                     "Find form",
                     JOptionPane.OK_CANCEL_OPTION,
@@ -209,7 +238,7 @@ public class MainForm extends JFrame {
 
     @Override
     public void dispose() {
-        super.dispose();
         connection.close();
+        super.dispose();
     }
 }
