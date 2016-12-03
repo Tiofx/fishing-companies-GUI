@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.function.Function;
 
 public class MainForm extends JFrame {
 
@@ -85,6 +84,7 @@ public class MainForm extends JFrame {
         }
     }
 
+
     private AbstractController addTableView(int i, String tableName, JdbcRowSet tableDate) {
         AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
@@ -107,6 +107,7 @@ public class MainForm extends JFrame {
                 table = null;
         }
 
+        // TODO: 03/12/2016 use Factory method OR Builder?
         switch (i) {
             case 0:
                 result = new FishController(tableDate, tb, table);
@@ -152,45 +153,12 @@ public class MainForm extends JFrame {
         return result;
     }
 
-    private <T> void makeOperation(String nameOperation, IUniversalForm<T> inputPanel, Function<T, Boolean> func) {
-        do {
-            int result = JOptionPane.showConfirmDialog(null,
-                    inputPanel,
-                    nameOperation + " form",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE);
-
-            if (result == JOptionPane.OK_OPTION) {
-                if (inputPanel.canGetRecord()) {
-                    T record = inputPanel.getRecord();
-
-                    if (!func.apply(record)) {
-                        JOptionPane.showMessageDialog(
-                                this,
-                                "This record wasn't " + nameOperation + "ed!!!",
-                                nameOperation + " problem",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                    break;
-                } else {
-//                    JOptionPane.showMessageDialog(
-//                            inputPanel,
-//                            "You have error in fields: " + inputPanel.incorrectFields(),
-//                            "Incorrect data",
-//                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                break;
-            }
-        } while (true);
-
-    }
 
     private void addListeners() {
         addButton.addActionListener(e -> {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
-            makeOperation("add", inputForm, a -> allControllers[i].insert(a));
+            unit.Dialog.makeOperation("add", inputForm, a -> allControllers[i].insert(a));
             allControllers[i].update();
         });
 
@@ -204,7 +172,7 @@ public class MainForm extends JFrame {
             int i = tabbedPane.getSelectedIndex();
             IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
             inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
-            makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
+            unit.Dialog.makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
             allControllers[i].update();
         });
 
