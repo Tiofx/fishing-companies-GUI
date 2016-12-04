@@ -24,22 +24,18 @@ public abstract class AbstractController<T> {
     protected int[] sortedInfo;
 
     public AbstractController() {
+        try {
+            sortedInfo = new int[jrs.getMetaData().getColumnCount()];
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        resetSortedInfo();
     }
 
     public AbstractController(JdbcRowSet jrs) {
         setJrs(jrs);
         tableModel = new BaseTableModel(jrs, getSkipNumber());
 
-    }
-
-    @Deprecated
-    public AbstractController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        setJrs(jrs);
-        this.tableModel = tableModel;
-        this.view = view;
-
-//        baseStatement = "SELECT * FROM " + getTableName();
-//        sortedInfo = new int[tableModel.getColumnCount()];
         try {
             sortedInfo = new int[jrs.getMetaData().getColumnCount()];
         } catch (SQLException e) {
