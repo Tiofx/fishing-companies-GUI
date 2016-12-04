@@ -24,28 +24,20 @@ public abstract class AbstractController<T> {
     protected int[] sortedInfo;
 
     public AbstractController() {
-        try {
-            sortedInfo = new int[jrs.getMetaData().getColumnCount()];
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        resetSortedInfo();
     }
 
     public AbstractController(JdbcRowSet jrs) {
         setJrs(jrs);
         tableModel = new BaseTableModel(jrs, getSkipNumber());
 
-        try {
-            sortedInfo = new int[jrs.getMetaData().getColumnCount()];
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        createSortedInfo();
         resetSortedInfo();
     }
 
     public void setJrs(JdbcRowSet jrs) {
         this.jrs = jrs;
+        createSortedInfo();
+        resetSortedInfo();
         baseStatement = "SELECT * FROM " + getTableName();
         tableModel = createTableModel();
         view = createView();
@@ -286,6 +278,14 @@ public abstract class AbstractController<T> {
         condition = condition.replaceAll("  ", " AND ");
         stt += condition;
         return stt;
+    }
+
+    protected void createSortedInfo() {
+        try {
+            sortedInfo = new int[jrs.getMetaData().getColumnCount()];
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void resetSortedInfo() {
