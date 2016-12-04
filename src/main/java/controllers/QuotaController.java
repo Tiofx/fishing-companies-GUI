@@ -1,10 +1,10 @@
 package controllers;
 
 import models.gui.BaseTableModel;
+import models.gui.QuotaTableModel;
 import models.sql.Quota;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class QuotaController extends AbstractController<Quota> {
@@ -12,8 +12,13 @@ public class QuotaController extends AbstractController<Quota> {
     public QuotaController() {
     }
 
-    public QuotaController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public QuotaController(JdbcRowSet jrs) {
+        super(jrs);
+    }
+
+    @Override
+    protected BaseTableModel createTableModel(JdbcRowSet jrs) {
+        return new QuotaTableModel(jrs);
     }
 
     @Override

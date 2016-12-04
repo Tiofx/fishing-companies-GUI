@@ -1,10 +1,8 @@
 package controllers;
 
-import models.gui.BaseTableModel;
 import models.sql.Ship;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class ShipController extends AbstractController<Ship> {
@@ -12,8 +10,8 @@ public class ShipController extends AbstractController<Ship> {
     public ShipController() {
     }
 
-    public ShipController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public ShipController(JdbcRowSet jrs) {
+        super(jrs);
     }
 
     @Override

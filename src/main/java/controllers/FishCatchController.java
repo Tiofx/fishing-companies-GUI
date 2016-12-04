@@ -1,10 +1,8 @@
 package controllers;
 
-import models.gui.BaseTableModel;
 import models.sql.FishCatch;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class FishCatchController extends AbstractController<FishCatch> {
@@ -12,8 +10,8 @@ public class FishCatchController extends AbstractController<FishCatch> {
     public FishCatchController() {
     }
 
-    public FishCatchController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public FishCatchController(JdbcRowSet jrs) {
+        super(jrs);
     }
 
     @Override

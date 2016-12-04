@@ -1,10 +1,8 @@
 package controllers;
 
-import models.gui.BaseTableModel;
 import models.sql.Captain;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class CaptainController extends AbstractController<Captain> {
@@ -12,8 +10,8 @@ public class CaptainController extends AbstractController<Captain> {
     public CaptainController() {
     }
 
-    public CaptainController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public CaptainController(JdbcRowSet jrs) {
+        super(jrs);
     }
 
     @Override

@@ -1,10 +1,8 @@
 package controllers;
 
 import models.sql.Inventory;
-import models.gui.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class InventoryController extends AbstractController<Inventory> {
@@ -12,8 +10,8 @@ public class InventoryController extends AbstractController<Inventory> {
     public InventoryController() {
     }
 
-    public InventoryController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public InventoryController(JdbcRowSet jrs) {
+        super(jrs);
     }
 
     @Override

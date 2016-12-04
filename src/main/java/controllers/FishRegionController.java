@@ -1,10 +1,8 @@
 package controllers;
 
 import models.sql.FishRegion;
-import models.gui.BaseTableModel;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
 import java.sql.SQLException;
 
 public class FishRegionController extends AbstractController<FishRegion> {
@@ -12,8 +10,8 @@ public class FishRegionController extends AbstractController<FishRegion> {
     public FishRegionController() {
     }
 
-    public FishRegionController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        super(jrs, tableModel, view);
+    public FishRegionController(JdbcRowSet jrs) {
+        super(jrs);
     }
 
     @Override

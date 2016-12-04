@@ -51,13 +51,13 @@ public abstract class AbstractController<T> {
     public void setJrs(JdbcRowSet jrs) {
         this.jrs = jrs;
         baseStatement = "SELECT * FROM " + getTableName();
-        createTableModel();
-        createView();
+        tableModel = createTableModel();
+        view = createView();
     }
 
-    protected void createView() {
+    protected JTable createView() {
         final AbstractController thisController = this;
-        view = new JTable(tableModel);
+        JTable view = new JTable(tableModel);
         view.setAutoCreateRowSorter(false);
         view.setShowGrid(true);
         view.setGridColor(Color.GRAY);
@@ -82,6 +82,8 @@ public abstract class AbstractController<T> {
                 thisController.sort(column + 1);
             }
         });
+
+        return view;
     }
 
     public JdbcRowSet getJrs() {
@@ -100,7 +102,13 @@ public abstract class AbstractController<T> {
         return 1;
     }
 
-    protected abstract BaseTableModel createTableModel();
+    protected final BaseTableModel createTableModel() {
+        return createTableModel(jrs);
+    }
+
+    protected BaseTableModel createTableModel(JdbcRowSet jrs) {
+        return new BaseTableModel(jrs);
+    }
 
     protected abstract void updateRecord(T newRecord) throws SQLException;
 
