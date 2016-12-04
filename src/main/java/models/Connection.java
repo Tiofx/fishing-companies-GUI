@@ -3,6 +3,8 @@ package models;
 import com.sun.rowset.JdbcRowSetImpl;
 import controllers.*;
 import gui.*;
+import unit.ControllerFactory;
+import unit.ControllerFactoryByTableName;
 import unit.FormFactory;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -25,6 +27,7 @@ public class Connection {
     // TODO: 30/11/2016 change this
     public static java.sql.Connection connection;
     public static final FormFactory<Class> formFactory = new FormFactory<>();
+    public static final ControllerFactory<String> controllerFactory = new ControllerFactoryByTableName();
 
     //    protected java.sql.Connection connection;
     protected Statement stmt;

@@ -5,9 +5,9 @@ import controllers.*;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class ControllerFactoryTableByName extends ControllerFactory<String> {
+public class ControllerFactoryByTableName extends ControllerFactory<String> {
 
-    public ControllerFactoryTableByName() {
+    public ControllerFactoryByTableName() {
         add("captain", CaptainController::new);
         add("fishCatch", FishCatchController::new);
         add("fish", FishController::new);
