@@ -23,7 +23,7 @@ public class QuotaTableModel extends BaseTableModel {
             JdbcRowSet res = new JdbcRowSetImpl(Connection.connection);
             res.setCommand("select * from fishRegion");
             res.execute();
-            fishRegion = new FishRegionController(res, null, null);
+            fishRegion = new FishRegionController(res);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class QuotaTableModel extends BaseTableModel {
             JdbcRowSet res = new JdbcRowSetImpl(Connection.connection);
             res.setCommand("select * from fishRegion");
             res.execute();
-            fishRegion = new FishRegionController(res, null, null);
+            fishRegion = new FishRegionController(res);
         } catch (SQLException e) {
             e.printStackTrace();
         }

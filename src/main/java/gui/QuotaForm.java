@@ -82,7 +82,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     }
 
     public QuotaForm(JdbcRowSet jrs) {
-        this(new FishRegionController(jrs, null, null));
+        this(new FishRegionController(jrs));
     }
 
     @Override
