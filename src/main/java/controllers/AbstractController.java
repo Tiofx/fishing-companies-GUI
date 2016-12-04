@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public abstract class AbstractController<T> {
     //public abstract class AbstractController<T extends ISqlModel> {
-    protected final String baseStatement;
+    protected String baseStatement;
 
     protected JdbcRowSet jrs;
     protected BaseTableModel tableModel;
@@ -19,6 +19,8 @@ public abstract class AbstractController<T> {
     protected final static int ASCENDING = 1;
     protected int[] sortedInfo;
 
+    public AbstractController() {
+    }
 
     public AbstractController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         this.jrs = jrs;
@@ -33,6 +35,11 @@ public abstract class AbstractController<T> {
             e.printStackTrace();
         }
         resetSortedInfo();
+    }
+
+    public void setJrs(JdbcRowSet jrs) {
+        this.jrs = jrs;
+        baseStatement = "SELECT * FROM " + getTableName();
     }
 
     public JdbcRowSet getJrs() {

@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 public class CaptainController extends AbstractController<Captain> {
 
+    public CaptainController() {
+    }
+
     public CaptainController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }

@@ -172,10 +172,10 @@ public class MainForm extends JFrame {
         deleteButton.getActionMap().put("delete", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("sfd");
                 deleteButton.getActionListeners()[0].actionPerformed(e);
             }
         });
+
         addButton.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {

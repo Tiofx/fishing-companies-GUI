@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class QuotaController extends AbstractController<Quota> {
+
+    public QuotaController() {
+    }
+
     public QuotaController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }

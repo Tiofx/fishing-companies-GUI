@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 public class FishController extends AbstractController<Fish> {
 
+    public FishController() {
+    }
+
     public FishController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }

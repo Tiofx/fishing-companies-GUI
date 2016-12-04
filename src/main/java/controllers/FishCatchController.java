@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class FishCatchController extends AbstractController<FishCatch> {
+
+    public FishCatchController() {
+    }
+
     public FishCatchController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }

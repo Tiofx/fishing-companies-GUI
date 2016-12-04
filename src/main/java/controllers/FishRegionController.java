@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class FishRegionController extends AbstractController<FishRegion> {
+
+    public FishRegionController() {
+    }
+
     public FishRegionController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }

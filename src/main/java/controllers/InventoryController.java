@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class InventoryController extends AbstractController<Inventory> {
+
+    public InventoryController() {
+    }
+
     public InventoryController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
         super(jrs, tableModel, view);
     }
