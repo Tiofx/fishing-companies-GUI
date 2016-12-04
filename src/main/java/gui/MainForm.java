@@ -49,11 +49,11 @@ public class MainForm extends JFrame {
             allControllers[i] = addTableView(i, connection.getTablesName()[i], connection);
         }
 
-        fullFactory();
+        fillFactory();
         addListeners();
     }
 
-    private void fullFactory() {
+    private void fillFactory() {
         formFactory.add(CaptainController.class, CaptainForm::new);
         formFactory.add(FishController.class, FishForm::new);
         formFactory.add(FishRegionController.class, FishRegionForm::new);
@@ -81,7 +81,6 @@ public class MainForm extends JFrame {
         }
     }
 
-
     private AbstractController addTableView(int i, String tableName, JdbcRowSet tableDate) {
         AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
@@ -89,70 +88,35 @@ public class MainForm extends JFrame {
         final JTable table;
 
         switch (i) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                table = new JTable(tb);
-                break;
             case 5:
                 tb = new QuotaTableModel(tableDate);
-                table = new JTable(tb);
                 break;
-            default:
-                table = null;
         }
+
 
         // TODO: 03/12/2016 use Factory method OR Builder?
         switch (i) {
             case 0:
-                result = new FishController(tableDate, tb, table);
+                result = new FishController(tableDate);
                 break;
             case 1:
-                result = new ShipController(tableDate, tb, table);
+                result = new ShipController(tableDate);
                 break;
             case 2:
-                result = new CaptainController(tableDate, tb, table);
+                result = new CaptainController(tableDate);
                 break;
             case 3:
-                result = new InventoryController(tableDate, tb, table);
+                result = new InventoryController(tableDate);
                 break;
             case 4:
-                result = new FishRegionController(tableDate, tb, table);
+                result = new FishRegionController(tableDate);
                 break;
             case 5:
-                result = new QuotaController(tableDate, tb, table);
+                result = new QuotaController(tableDate);
                 break;
         }
 
-
-        table.setAutoCreateRowSorter(false);
-        table.setShowGrid(true);
-        table.setGridColor(Color.GRAY);
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    int i = tabbedPane.getSelectedIndex();
-                    IUniversalForm inputForm = formFactory.getInstance(allControllers[i].getClass());
-                    inputForm.setRecord(allControllers[i].getRecordSelectedInTable());
-                    unit.Dialog.makeOperation("edit", inputForm, a -> allControllers[i].editSelectedInTable(a));
-                    allControllers[i].update();
-                }
-                super.mouseClicked(e);
-            }
-        });
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                Point point = e.getPoint();
-                int column = table.columnAtPoint(point);
-
-                allControllers[i].sort(column + 1);
-            }
-        });
-
+        table = result.getView();
 
         scroll.setViewportView(table);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
