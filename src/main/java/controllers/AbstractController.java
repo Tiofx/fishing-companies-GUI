@@ -1,13 +1,17 @@
 package controllers;
 
+import models.Connection;
 import models.gui.BaseTableModel;
+import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public abstract class AbstractController<T> {
-    //public abstract class AbstractController<T extends ISqlModel> {
     protected String baseStatement;
 
     protected JdbcRowSet jrs;
@@ -22,12 +26,19 @@ public abstract class AbstractController<T> {
     public AbstractController() {
     }
 
+    public AbstractController(JdbcRowSet jrs) {
+        setJrs(jrs);
+        tableModel = new BaseTableModel(jrs, getSkipNumber());
+
+    }
+
+    @Deprecated
     public AbstractController(JdbcRowSet jrs, BaseTableModel tableModel, JTable view) {
-        this.jrs = jrs;
+        setJrs(jrs);
         this.tableModel = tableModel;
         this.view = view;
 
-        baseStatement = "SELECT * FROM " + getTableName();
+//        baseStatement = "SELECT * FROM " + getTableName();
 //        sortedInfo = new int[tableModel.getColumnCount()];
         try {
             sortedInfo = new int[jrs.getMetaData().getColumnCount()];
@@ -40,6 +51,37 @@ public abstract class AbstractController<T> {
     public void setJrs(JdbcRowSet jrs) {
         this.jrs = jrs;
         baseStatement = "SELECT * FROM " + getTableName();
+        createTableModel();
+        createView();
+    }
+
+    protected void createView() {
+        final AbstractController thisController = this;
+        view = new JTable(tableModel);
+        view.setAutoCreateRowSorter(false);
+        view.setShowGrid(true);
+        view.setGridColor(Color.GRAY);
+
+        view.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    IUniversalForm inputForm = Connection.formFactory.getInstance(thisController.getClass());
+                    inputForm.setRecord(thisController.getRecordSelectedInTable());
+                    unit.Dialog.makeOperation("edit", inputForm, a -> thisController.editSelectedInTable(a));
+                    thisController.update();
+                }
+                super.mouseClicked(e);
+            }
+        });
+        view.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Point point = e.getPoint();
+                int column = view.columnAtPoint(point);
+                thisController.sort(column + 1);
+            }
+        });
     }
 
     public JdbcRowSet getJrs() {
@@ -57,6 +99,8 @@ public abstract class AbstractController<T> {
     protected int getSkipNumber() {
         return 1;
     }
+
+    protected abstract BaseTableModel createTableModel();
 
     protected abstract void updateRecord(T newRecord) throws SQLException;
 

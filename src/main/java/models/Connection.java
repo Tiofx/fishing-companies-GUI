@@ -1,6 +1,9 @@
 package models;
 
 import com.sun.rowset.JdbcRowSetImpl;
+import controllers.*;
+import gui.*;
+import unit.FormFactory;
 
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.DriverManager;
@@ -21,6 +24,8 @@ public class Connection {
 
     // TODO: 30/11/2016 change this
     public static java.sql.Connection connection;
+    public static final FormFactory<Class> formFactory = new FormFactory<>();
+
     //    protected java.sql.Connection connection;
     protected Statement stmt;
 
@@ -44,6 +49,17 @@ public class Connection {
         this.dataBaseName = dataBaseName;
         this.userName = userName;
         this.userPassword = userPassword;
+
+
+    }
+
+    private void fillFactory() {
+        formFactory.add(CaptainController.class, CaptainForm::new);
+        formFactory.add(FishController.class, FishForm::new);
+        formFactory.add(FishRegionController.class, FishRegionForm::new);
+        formFactory.add(InventoryController.class, InventoryForm::new);
+        formFactory.add(ShipController.class, ShipForm::new);
+        formFactory.add(QuotaController.class, () -> new QuotaForm(getJRS("fishRegion")));
     }
 
     public void startConnection() {
