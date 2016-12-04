@@ -53,7 +53,7 @@ public class Connection {
         this.userName = userName;
         this.userPassword = userPassword;
 
-
+        fillFactory();
     }
 
     private void fillFactory() {

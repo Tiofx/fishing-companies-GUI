@@ -1,10 +1,7 @@
 package gui;
 
-import controllers.*;
+import controllers.AbstractController;
 import models.Connection;
-import models.gui.BaseTableModel;
-import models.gui.QuotaTableModel;
-import unit.FormFactory;
 import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -12,11 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static models.Connection.formFactory;
+
 public class MainForm extends JFrame {
 
     private Connection connection;
     private final AbstractController[] allControllers;
-    private final FormFactory<Class> formFactory = new FormFactory<>();
+//    private final FormFactory<Class> formFactory = new FormFactory<>();
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -45,20 +44,10 @@ public class MainForm extends JFrame {
         allControllers = new AbstractController[connection.getTablesNumber()];
 
         for (int i = 0; i < connection.getTablesNumber(); i++) {
-            allControllers[i] = addTableView(i, connection.getTablesName()[i], connection);
+            allControllers[i] = addTableView(i);
         }
 
-        fillFactory();
         addListeners();
-    }
-
-    private void fillFactory() {
-        formFactory.add(CaptainController.class, CaptainForm::new);
-        formFactory.add(FishController.class, FishForm::new);
-        formFactory.add(FishRegionController.class, FishRegionForm::new);
-        formFactory.add(InventoryController.class, InventoryForm::new);
-        formFactory.add(ShipController.class, ShipForm::new);
-        formFactory.add(QuotaController.class, () -> new QuotaForm(connection.getJRS("fishRegion")));
     }
 
     public static void main(String[] args) {
@@ -67,49 +56,18 @@ public class MainForm extends JFrame {
         frame.pack();
     }
 
-    private AbstractController addTableView(int i, String tableName, Connection connection) {
-        return addTableView(i, tableName, connection.getJRS(tableName));
+    private AbstractController addTableView(int i) {
+        String tableName = connection.getTablesName()[i];
+        return addTableView(tableName, connection.getJRS(tableName));
     }
 
-    private AbstractController addTableView(int i, String tableName, JdbcRowSet tableDate) {
+    private AbstractController addTableView(String tableName, JdbcRowSet tableDate) {
         AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
-        BaseTableModel tb;
         final JTable table;
 
-        switch (i) {
-            case 5:
-                tb = new QuotaTableModel(tableDate);
-                break;
-            default:
-                tb = new BaseTableModel(tableDate);
-        }
-
-
-        // TODO: 03/12/2016 use Factory method OR Builder?
         result = Connection.controllerFactory.getInstance(tableName);
         result.setJrs(tableDate);
-//        switch (i) {
-//            case 0:
-//                result = new FishController(tableDate);
-//                break;
-//            case 1:
-//                result = new ShipController(tableDate);
-//                break;
-//            case 2:
-//                result = new CaptainController(tableDate);
-//                break;
-//            case 3:
-//                result = new InventoryController(tableDate);
-//                break;
-//            case 4:
-//                result = new FishRegionController(tableDate);
-//                break;
-//            case 5:
-//                result = new QuotaController(tableDate);
-//                break;
-//        }
-
         table = result.getView();
 
         scroll.setViewportView(table);
