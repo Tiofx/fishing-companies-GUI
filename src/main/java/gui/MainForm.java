@@ -11,7 +11,6 @@ import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 public class MainForm extends JFrame {
 
@@ -72,49 +71,44 @@ public class MainForm extends JFrame {
         return addTableView(i, tableName, connection.getJRS(tableName));
     }
 
-    private AbstractController addTableView(int i, JdbcRowSet tableDate) {
-        try {
-            return addTableView(i, tableDate.getMetaData().getTableName(1), tableDate);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private AbstractController addTableView(int i, String tableName, JdbcRowSet tableDate) {
         AbstractController result = null;
         JScrollPane scroll = new JScrollPane();
-        BaseTableModel tb = new BaseTableModel(tableDate);
+        BaseTableModel tb;
         final JTable table;
 
         switch (i) {
             case 5:
                 tb = new QuotaTableModel(tableDate);
                 break;
+            default:
+                tb = new BaseTableModel(tableDate);
         }
 
 
         // TODO: 03/12/2016 use Factory method OR Builder?
-        switch (i) {
-            case 0:
-                result = new FishController(tableDate);
-                break;
-            case 1:
-                result = new ShipController(tableDate);
-                break;
-            case 2:
-                result = new CaptainController(tableDate);
-                break;
-            case 3:
-                result = new InventoryController(tableDate);
-                break;
-            case 4:
-                result = new FishRegionController(tableDate);
-                break;
-            case 5:
-                result = new QuotaController(tableDate);
-                break;
-        }
+        result = Connection.controllerFactory.getInstance(tableName);
+        result.setJrs(tableDate);
+//        switch (i) {
+//            case 0:
+//                result = new FishController(tableDate);
+//                break;
+//            case 1:
+//                result = new ShipController(tableDate);
+//                break;
+//            case 2:
+//                result = new CaptainController(tableDate);
+//                break;
+//            case 3:
+//                result = new InventoryController(tableDate);
+//                break;
+//            case 4:
+//                result = new FishRegionController(tableDate);
+//                break;
+//            case 5:
+//                result = new QuotaController(tableDate);
+//                break;
+//        }
 
         table = result.getView();
 
