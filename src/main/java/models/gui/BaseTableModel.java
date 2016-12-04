@@ -23,9 +23,8 @@ public class BaseTableModel extends AbstractTableModel {
             tableResultSet.last();
             return tableResultSet.getRow();
         } catch (SQLException e) {
-            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BaseTableModel extends AbstractTableModel {
         try {
             return tableResultSet.getMetaData().getColumnLabel(column + 1 + skipFirst);
         } catch (SQLException e) {
-            return e.toString();
+            return "error getColumnName";
         }
     }
 
@@ -43,9 +42,8 @@ public class BaseTableModel extends AbstractTableModel {
         try {
             return tableResultSet.getMetaData().getColumnCount() - skipFirst;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override
@@ -54,9 +52,8 @@ public class BaseTableModel extends AbstractTableModel {
             tableResultSet.absolute(rowIndex + 1);
             return tableResultSet.getObject(columnIndex + 1 + skipFirst);
         } catch (SQLException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
