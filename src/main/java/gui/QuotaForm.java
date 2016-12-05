@@ -1,14 +1,14 @@
 package gui;
 
 import controllers.FishRegionController;
+import models.gui.FishRegionComboBoxRenderer;
 import models.gui.FishRegionComboBoxModel;
 import models.sql.FishRegion;
 import models.sql.Quota;
-import unit.*;
+import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,28 +22,6 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
 
     private FishRegionController fishRegion;
 
-    private class ComboRenderer extends DefaultListCellRenderer {
-
-        @Override
-        public Component getListCellRendererComponent(JList list,
-                                                      Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            JComponent c = (JComponent) super.getListCellRendererComponent(list,
-                    value, index, isSelected, cellHasFocus);
-
-            if (value instanceof FishRegion) {
-                if (isSelected) {
-                    setText(((FishRegion) value).getPlaceName());
-                } else {
-                    list.setToolTipText(value.toString());
-                    setText(value.toString());
-                }
-            }
-
-            return c;
-        }
-    }
-
-
     public QuotaForm(FishRegionController fishRegion) {
         super();
         add(rootPanel);
@@ -52,7 +30,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         placeNameCB.setModel(cb);
 
-        placeNameCB.setRenderer(new ComboRenderer());
+        placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

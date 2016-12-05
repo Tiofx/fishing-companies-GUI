@@ -23,7 +23,6 @@ public class QuotaTableModel extends BaseTableModel {
         if (column == whatReplace - 1) {
             try {
                 return joinable.getMetaData().getColumnName(replaceableNumber);
-//                return fishRegion.getJrs().getMetaData().getColumnName(replaceableNumber);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "error get name";
