@@ -1,7 +1,7 @@
 package gui;
 
 import controllers.AbstractController;
-import models.Connection;
+import unit.Connection;
 import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static models.Connection.formFactory;
+import static unit.Connection.formFactory;
 
 public class MainForm extends JFrame {
 

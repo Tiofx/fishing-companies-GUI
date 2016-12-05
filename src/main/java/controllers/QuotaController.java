@@ -1,7 +1,7 @@
 package controllers;
 
 import com.sun.rowset.JdbcRowSetImpl;
-import models.Connection;
+import unit.Connection;
 import models.gui.BaseTableModel;
 import models.gui.QuotaTableModel;
 import models.sql.Quota;

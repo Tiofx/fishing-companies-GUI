@@ -1,11 +1,11 @@
-package models;
+package unit;
 
 import com.sun.rowset.JdbcRowSetImpl;
 import controllers.*;
 import gui.*;
-import unit.ControllerFactory;
-import unit.ControllerFactoryByTableName;
-import unit.FormFactory;
+import unit.factories.ControllerFactory;
+import unit.factories.ControllerFactoryByTableName;
+import unit.factories.FormFactory;
 
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.DriverManager;

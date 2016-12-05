@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Connection;
+import unit.Connection;
 import models.gui.BaseTableModel;
 import unit.IUniversalForm;
 import unit.PreparedConditions;
