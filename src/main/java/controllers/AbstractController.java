@@ -3,6 +3,7 @@ package controllers;
 import models.Connection;
 import models.gui.BaseTableModel;
 import unit.IUniversalForm;
+import unit.PreparedConditions;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
@@ -268,7 +269,8 @@ public abstract class AbstractController<T> {
         for (int i = skipNumber; i < columnCount; i++) {
             try {
                 if (f[i - skipNumber])
-                    condition += jrs.getMetaData().getColumnName(i + 1) + " = ?  ";
+                    condition += jrs.getMetaData().getColumnName(i + 1) +
+                            " " + getPreparedCondition(i + 1) + "  ";
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -278,6 +280,10 @@ public abstract class AbstractController<T> {
         condition = condition.replaceAll("  ", " AND ");
         stt += condition;
         return stt;
+    }
+
+    protected String getPreparedCondition(int i) {
+        return PreparedConditions.startWith;
     }
 
     protected void createSortedInfo() {
