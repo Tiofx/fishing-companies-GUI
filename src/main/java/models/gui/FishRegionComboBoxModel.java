@@ -35,7 +35,8 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
         if (anItem != null && !(anItem instanceof FishRegion)) {
 
             int i = JOptionPane.showConfirmDialog(null,
-                    "This record doesn't exist yet.\n Would you like to add this record?",
+                    "This record doesn't exist yet.\n " +
+                            "Would you like to add this record?",
                     "add?",
                     JOptionPane.OK_OPTION,
                     JOptionPane.PLAIN_MESSAGE);

@@ -1,8 +1,7 @@
 package gui;
 
 import controllers.FishRegionController;
-import models.gui.FishRegionComboBoxRenderer;
-import models.gui.FishRegionComboBoxModel;
+import models.gui.*;
 import models.sql.FishRegion;
 import models.sql.Quota;
 import unit.IUniversalForm;
@@ -29,6 +28,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
 
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         placeNameCB.setModel(cb);
+        placeNameCB.setEditor(new FishRegionComboBoxEditor());
 
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
         editButton.addActionListener(new ActionListener() {
