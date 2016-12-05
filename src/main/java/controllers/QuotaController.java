@@ -1,5 +1,7 @@
 package controllers;
 
+import com.sun.rowset.JdbcRowSetImpl;
+import models.Connection;
 import models.gui.BaseTableModel;
 import models.gui.QuotaTableModel;
 import models.sql.Quota;
@@ -18,7 +20,15 @@ public class QuotaController extends AbstractController<Quota> {
 
     @Override
     protected BaseTableModel createTableModel(JdbcRowSet jrs) {
-        return new QuotaTableModel(jrs);
+        try {
+            JdbcRowSet res = new JdbcRowSetImpl(Connection.connection);
+            res.setCommand("select * from fishRegion");
+            res.execute();
+            return new QuotaTableModel(jrs, res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new BaseTableModel(jrs);
+        }
     }
 
     @Override

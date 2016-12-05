@@ -1,5 +1,7 @@
 package unit;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -11,9 +13,7 @@ public class Factory<T, R> {
         if (creators.containsKey(id)) {
             return creators.get(id).get();
         } else {
-            System.out.println(id.toString());
-            return null;
-//            throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 
