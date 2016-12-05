@@ -19,46 +19,57 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
 
     @Override
     public void setSelectedItem(Object anItem) {
-        if (anItem != null && anItem instanceof Integer) {
-            Boolean[] mask = {true, false, false};
-            FishRegion find = new FishRegion();
+        if (anItem != null) {
+            if (anItem instanceof FishRegion) {
+                if ((selectedObject != null
+                        && !selectedObject.equals(anItem)) ||
+                        selectedObject == null) {
 
-            find.setId((int) anItem);
-            objects.fullFind(mask, find);
+                    selectedObject = (FishRegion) anItem;
+                    objects.edit(selectedObject);
+                    fireContentsChanged(this, -1, -1);
+                }
+            } else if (anItem instanceof Integer) {
+                Boolean[] mask = {true, false, false};
+                FishRegion find = new FishRegion();
 
-            selectedObject = objects.getRecord(1);
+                find.setId((int) anItem);
+                objects.fullFind(mask, find);
+                selectedObject = objects.getRecord(1);
 
-            objects.reset();
-            fireContentsChanged(this, -1, -1);
-            return;
-        }
-        if (anItem != null && !(anItem instanceof FishRegion)) {
+                objects.reset();
+                fireContentsChanged(this, -1, -1);
+            } else {
+                Boolean[] mask = {false, true, false};
+                FishRegion find = new FishRegion();
 
-            int i = JOptionPane.showConfirmDialog(null,
-                    "This record doesn't exist yet.\n " +
-                            "Would you like to add this record?",
-                    "add?",
-                    JOptionPane.OK_OPTION,
-                    JOptionPane.PLAIN_MESSAGE);
+                find.setPlaceName(((String) anItem));
+                objects.fullFind(mask, find);
 
-            if (i != JOptionPane.OK_OPTION) {
-                return;
+                if (objects.getRecord(1) != null) {
+                    selectedObject = objects.getRecord(1);
+
+                    objects.reset();
+                    fireContentsChanged(this, -1, -1);
+                } else {
+                    int i = JOptionPane.showConfirmDialog(null,
+                            "This record doesn't exist yet.\n " +
+                                    "Would you like to add this record?",
+                            "add?",
+                            JOptionPane.OK_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    if (i != JOptionPane.OK_OPTION) {
+                        return;
+                    }
+                    FishRegionForm inputPanel = new FishRegionForm();
+                    inputPanel.setRecord(new FishRegion((String) anItem, ""));
+
+                    selectedObject = Dialog.makeOperation("add", inputPanel, (fr -> objects.insert(fr)));
+
+                    fireContentsChanged(this, -1, -1);
+                }
             }
-            FishRegionForm inputPanel = new FishRegionForm();
-            inputPanel.setRecord(new FishRegion((String) anItem, ""));
-
-            Dialog.makeOperation("add", inputPanel, (fr -> objects.insert(fr)));
-//            selectedObject =
-
-            fireContentsChanged(this, -1, -1);
-            return;
-        }
-
-        if ((selectedObject != null && !selectedObject.equals(anItem)) ||
-                selectedObject == null && anItem != null) {
-            selectedObject = (FishRegion) anItem;
-            objects.edit(selectedObject);
-            fireContentsChanged(this, -1, -1);
         }
     }
 
