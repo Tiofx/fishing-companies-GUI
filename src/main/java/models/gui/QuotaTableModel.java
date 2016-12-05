@@ -4,9 +4,10 @@ import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
 public class QuotaTableModel extends BaseTableModel {
-    protected JdbcRowSet joinable;
     protected final int replaceableNumber = 2;
     protected final int whatReplace = 1;
+    protected JdbcRowSet joinable;
+    protected int lastSize = -1;
 
     public QuotaTableModel(JdbcRowSet tableResultSet, JdbcRowSet joinable) {
         super(tableResultSet);
@@ -35,6 +36,8 @@ public class QuotaTableModel extends BaseTableModel {
         if (columnIndex == whatReplace - 1) {
             int id = (int) super.getValueAt(rowIndex, columnIndex);
             try {
+                // TODO: 05/12/2016 ineffective
+                joinable.execute();
                 joinable.beforeFirst();
                 while (joinable.next()) {
                     if (id == joinable.getInt(replaceableNumber - 1)) {
