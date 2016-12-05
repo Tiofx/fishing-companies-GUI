@@ -1,23 +1,20 @@
 package gui;
 
 import controllers.FishRegionController;
-import models.gui.*;
+import models.gui.FishRegionComboBoxEditor;
+import models.gui.FishRegionComboBoxModel;
+import models.gui.FishRegionComboBoxRenderer;
 import models.sql.FishRegion;
 import models.sql.Quota;
 import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import static javax.swing.JOptionPane.showConfirmDialog;
 
 public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     private JPanel rootPanel;
     private JTextField yearTxt;
     private JComboBox placeNameCB;
-    private JButton editButton;
 
     private FishRegionController fishRegion;
 
@@ -29,34 +26,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         placeNameCB.setModel(cb);
         placeNameCB.setEditor(new FishRegionComboBoxEditor());
-
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FishRegion fr = (FishRegion) placeNameCB.getSelectedItem();
-
-                FishRegionForm inputPanel = new FishRegionForm();
-                inputPanel.setRecord(fr);
-                String nameOperation = "add";
-                int result = showConfirmDialog(null,
-                        inputPanel,
-                        nameOperation + " form",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
-
-                if (result == JOptionPane.OK_OPTION) {
-                    if (inputPanel.canGetRecord()) {
-                        FishRegion record = inputPanel.getRecord();
-
-                        placeNameCB.setSelectedItem(record);
-                    }
-                }
-
-            }
-        });
-
-
     }
 
     public QuotaForm(JdbcRowSet jrs) {
