@@ -67,7 +67,6 @@ public class MainForm extends JFrame {
         final JTable table;
 
         result = Connection.controllerFactory.getInstance(tableName);
-        result.setJrs(tableDate);
         table = result.getView();
 
         scroll.setViewportView(table);

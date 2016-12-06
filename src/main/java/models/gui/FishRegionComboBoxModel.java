@@ -30,11 +30,6 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
                     fireContentsChanged(this, -1, -1);
                 }
             } else if (anItem instanceof Integer) {
-//                Boolean[] mask = {true, false, false};
-//                FishRegion find = new FishRegion();
-//
-//                find.setId((int) anItem);
-//                objects.fullFind(mask, find);
                 objects.fullFind(new Boolean[]{true, false, false},
                         new FishRegion((int) anItem, null, null));
 
@@ -43,11 +38,6 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
                 objects.reset();
                 fireContentsChanged(this, -1, -1);
             } else {
-//                Boolean[] mask = {false, true, false};
-//                FishRegion find = new FishRegion();
-//
-//                find.setPlaceName(((String) anItem));
-//                objects.fullFind(mask, find);
                 objects.fullFind(new Boolean[]{false, true, false},
                         new FishRegion((String) anItem, null));
 

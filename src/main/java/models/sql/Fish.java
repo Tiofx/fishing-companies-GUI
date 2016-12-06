@@ -1,6 +1,6 @@
 package models.sql;
 
-public class Fish implements ISqlModel{
+public class Fish implements ISqlModel {
     public final static int PK_NUMBER = 1;
     private int id;
     private String name;

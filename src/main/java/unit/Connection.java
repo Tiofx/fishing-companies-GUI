@@ -23,13 +23,12 @@ public class Connection {
     protected final String userPassword;
     protected String url;
 
+    public java.sql.Connection connection;
 
     // TODO: 30/11/2016 change this
-    public static java.sql.Connection connection;
     public static final FormFactory<Class> formFactory = new FormFactory<>();
-    public static final ControllerFactory<String> controllerFactory = new ControllerFactoryByTableName();
+    public static ControllerFactory<String> controllerFactory;
 
-    //    protected java.sql.Connection connection;
     protected Statement stmt;
 
     protected final String[] tablesName = {"fish", "ship", "captain", "inventory", "fishRegion", "quota"};
@@ -53,6 +52,7 @@ public class Connection {
         this.userName = userName;
         this.userPassword = userPassword;
 
+        controllerFactory = new ControllerFactoryByTableName(this);
         fillFactory();
     }
 

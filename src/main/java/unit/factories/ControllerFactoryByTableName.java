@@ -19,16 +19,6 @@ public class ControllerFactoryByTableName extends ControllerFactory<String> {
         add("quota", () -> new QuotaController(connection, "quota", "fishRegion"));
         add("ship", () -> new ShipController(connection, "ship"));
     }
-//
-//    public ControllerFactoryByTableName() {
-//        add("captain", CaptainController::new);
-//        add("fishCatch", FishCatchController::new);
-//        add("fish", FishController::new);
-//        add("fishRegion", FishRegionController::new);
-//        add("inventory", InventoryController::new);
-//        add("quota", QuotaController::new);
-//        add("ship", ShipController::new);
-//    }
 
     public AbstractController getInstance(JdbcRowSet id) {
         try {
