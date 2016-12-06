@@ -15,7 +15,11 @@ public class QuotaController extends AbstractController<Quota> {
     }
 
     public QuotaController(Connection connection, String tableName) {
-        this.fishRegion = connection.getJRS("fishRegion");
+        this(connection, tableName, "fishRegion");
+    }
+
+    public QuotaController(Connection connection, String tableName, String refTableName) {
+        this.fishRegion = connection.getJRS(refTableName);
         setJrs(connection.getJRS(tableName));
     }
 
