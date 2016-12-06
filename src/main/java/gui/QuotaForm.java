@@ -83,7 +83,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     }
 
     public boolean canGetFishRegionId() {
-        return true;
+        return placeNameCB.getSelectedIndex() != -1;
     }
 
     public boolean canGetYear() {
