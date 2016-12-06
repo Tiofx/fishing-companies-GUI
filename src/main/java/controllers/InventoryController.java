@@ -10,6 +10,10 @@ public class InventoryController extends AbstractController<Inventory> {
     public InventoryController() {
     }
 
+    public InventoryController(unit.Connection connection, String tableName) {
+        super(connection, tableName);
+    }
+
     public InventoryController(JdbcRowSet jrs) {
         super(jrs);
     }

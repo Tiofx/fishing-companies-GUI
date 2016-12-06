@@ -1,7 +1,7 @@
 package controllers;
 
-import unit.Connection;
 import models.gui.BaseTableModel;
+import unit.Connection;
 import unit.IUniversalForm;
 import unit.PreparedConditions;
 
@@ -27,12 +27,12 @@ public abstract class AbstractController<T> {
     public AbstractController() {
     }
 
+    public AbstractController(Connection connection, String tableName) {
+        this(connection.getJRS(tableName));
+    }
+
     public AbstractController(JdbcRowSet jrs) {
         setJrs(jrs);
-        tableModel = new BaseTableModel(jrs, getSkipNumber());
-
-        createSortedInfo();
-        resetSortedInfo();
     }
 
     public void setJrs(JdbcRowSet jrs) {
@@ -96,7 +96,7 @@ public abstract class AbstractController<T> {
     }
 
     protected BaseTableModel createTableModel(JdbcRowSet jrs) {
-        return new BaseTableModel(jrs);
+        return new BaseTableModel(jrs, getSkipNumber());
     }
 
     protected abstract void updateRecord(T newRecord) throws SQLException;

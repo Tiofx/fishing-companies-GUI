@@ -10,6 +10,10 @@ public class CaptainController extends AbstractController<Captain> {
     public CaptainController() {
     }
 
+    public CaptainController(unit.Connection connection, String tableName) {
+        super(connection, tableName);
+    }
+
     public CaptainController(JdbcRowSet jrs) {
         super(jrs);
     }

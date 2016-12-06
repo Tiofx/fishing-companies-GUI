@@ -10,6 +10,10 @@ public class FishController extends AbstractController<Fish> {
     public FishController() {
     }
 
+    public FishController(unit.Connection connection, String tableName) {
+        super(connection, tableName);
+    }
+
     public FishController(JdbcRowSet jrs) {
         super(jrs);
     }

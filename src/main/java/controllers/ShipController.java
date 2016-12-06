@@ -10,6 +10,10 @@ public class ShipController extends AbstractController<Ship> {
     public ShipController() {
     }
 
+    public ShipController(unit.Connection connection, String tableName) {
+        super(connection, tableName);
+    }
+
     public ShipController(JdbcRowSet jrs) {
         super(jrs);
     }

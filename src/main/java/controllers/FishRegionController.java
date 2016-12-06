@@ -10,6 +10,10 @@ public class FishRegionController extends AbstractController<FishRegion> {
     public FishRegionController() {
     }
 
+    public FishRegionController(unit.Connection connection, String tableName) {
+        super(connection, tableName);
+    }
+
     public FishRegionController(JdbcRowSet jrs) {
         super(jrs);
     }
