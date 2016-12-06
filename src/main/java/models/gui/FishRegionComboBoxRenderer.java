@@ -15,12 +15,12 @@ public class FishRegionComboBoxRenderer extends DefaultListCellRenderer {
 
         if (value instanceof FishRegion) {
             if (!isSelected) {
-                setText(((FishRegion) value).getPlaceName());
-            } else {
-                list.setToolTipText(value.toString());
                 setText(value.toString());
+            } else {
+                list.setToolTipText(((FishRegion) value).longInfo());
+                setText(((FishRegion) value).longInfoOneLine());
             }
-            setToolTipText(value.toString());
+            setToolTipText(((FishRegion) value).longInfo());
         }
 
         return c;

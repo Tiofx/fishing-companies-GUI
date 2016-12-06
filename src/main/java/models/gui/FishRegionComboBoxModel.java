@@ -17,6 +17,14 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
         this.objects = new FishRegionController(objects);
     }
 
+    public FishRegionController getObjects() {
+        return objects;
+    }
+
+    public void update() {
+        fireContentsChanged(this, -1, -1);
+    }
+
     @Override
     public void setSelectedItem(Object anItem) {
         if (anItem != null) {
@@ -26,7 +34,7 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
                         selectedObject == null) {
 
                     selectedObject = (FishRegion) anItem;
-                    objects.edit(selectedObject);
+//                    objects.edit(selectedObject);
                     fireContentsChanged(this, -1, -1);
                 }
             } else if (anItem instanceof Integer) {
@@ -62,7 +70,7 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
                     Dialog.makeOperation("add", inputPanel, (fr -> objects.insert(fr)));
 
                     objects.fullFind(new Boolean[]{false, true, false},
-                            new FishRegion((String) anItem, ""));
+                            new FishRegion((String) anItem, null));
                     selectedObject = objects.getRecord(1);
 
                     objects.reset();

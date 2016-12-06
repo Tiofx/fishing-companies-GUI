@@ -10,6 +10,8 @@ import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     private JPanel rootPanel;
@@ -27,6 +29,26 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         placeNameCB.setModel(cb);
         placeNameCB.setEditor(new FishRegionComboBoxEditor());
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
+
+        placeNameCB.getEditor().getEditorComponent().repaint();
+
+        QuotaForm root = this;
+        placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                placeNameCB.hidePopup();
+                if (cb instanceof FishRegionComboBoxModel) {
+                    if ((String) placeNameCB.getEditor().getItem() != null) {
+                        ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
+                                new FishRegion((String) placeNameCB.getEditor().getItem(), null));
+                    } else {
+                        ((FishRegionComboBoxModel) cb).getObjects().reset();
+                    }
+                    root.revalidate();
+                    placeNameCB.showPopup();
+                }
+            }
+        });
     }
 
     public QuotaForm(JdbcRowSet jrs) {
