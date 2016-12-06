@@ -1,7 +1,6 @@
 package gui;
 
 import controllers.FishRegionController;
-import models.gui.FishRegionComboBoxEditor;
 import models.gui.FishRegionComboBoxModel;
 import models.gui.FishRegionComboBoxRenderer;
 import models.sql.FishRegion;
@@ -10,6 +9,7 @@ import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboPopup;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -27,16 +27,13 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
 
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         placeNameCB.setModel(cb);
-        placeNameCB.setEditor(new FishRegionComboBoxEditor());
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
 
         placeNameCB.getEditor().getEditorComponent().repaint();
-
-        QuotaForm root = this;
         placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                placeNameCB.hidePopup();
+//                placeNameCB.hidePopup();
                 if (cb instanceof FishRegionComboBoxModel) {
                     if ((String) placeNameCB.getEditor().getItem() != null) {
                         ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
@@ -44,7 +41,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
                     } else {
                         ((FishRegionComboBoxModel) cb).getObjects().reset();
                     }
-                    root.revalidate();
+                    ((BasicComboPopup) placeNameCB.getAccessibleContext().getAccessibleChild(0)).pack();
                     placeNameCB.showPopup();
                 }
             }

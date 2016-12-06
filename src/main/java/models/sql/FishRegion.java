@@ -53,6 +53,7 @@ public class FishRegion implements ISqlModel {
     public String longInfo() {
         return "<html>place name: [" + placeName + "]<br> description: [" + description + "]</html>";
     }
+
     // TODO: 06/12/2016 move out?
     public String longInfoOneLine() {
         return longInfo().replaceAll("<br>", "");
