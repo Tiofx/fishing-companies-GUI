@@ -15,6 +15,8 @@ public class FishInfo implements IInfo<Fish> {
 
     @Override
     public String longInfo(Fish object) {
-        return "id [" + object.getId() + "]\n name: [" + object.getName() + "]\n price: [" + object.getPrice() + "]";
+        return "id [" + object.getId() + "]\n" +
+                "name: [" + object.getName() + "]\n" +
+                "price: [" + object.getPrice() + "]";
     }
 }

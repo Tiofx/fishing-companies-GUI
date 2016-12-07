@@ -5,6 +5,7 @@ import models.sql.FishRegion;
 import javax.swing.*;
 import java.awt.*;
 
+@Deprecated
 public class FishRegionComboBoxRenderer extends DefaultListCellRenderer {
 
     @Override

@@ -15,6 +15,8 @@ public class FishRegionInfo implements IInfo<FishRegion> {
 
     @Override
     public String longInfo(FishRegion object) {
-        return "place name: [" + object.getPlaceName() + "]\n description: [" + object.getDescription() + "]";
+        return "id: [" + object.getId() + "]\n" +
+                "place name: [" + object.getPlaceName() + "]\n" +
+                "description: [" + object.getDescription() + "]";
     }
 }
