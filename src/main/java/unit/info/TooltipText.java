@@ -5,7 +5,10 @@ public final class TooltipText {
     }
 
     public static String toTooltipText(String string) {
-        return "<html>" + string.replaceAll("\n", "<br>") + "</html>";
+        return "<html>"
+                + string
+                .replaceAll("\n", "<br>")
+                + "</html>";
     }
 
 }
