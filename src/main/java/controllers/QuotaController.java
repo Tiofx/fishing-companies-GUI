@@ -1,15 +1,12 @@
 package controllers;
 
-import models.gui.BaseTableModel;
-import models.gui.QuotaTableModel;
 import models.sql.Quota;
 import unit.Connection;
 
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class QuotaController extends AbstractController<Quota> {
-    protected JdbcRowSet fishRegion;
+public class QuotaController extends AbstractControllerWithRef<Quota> {
 
     public QuotaController() {
     }
@@ -19,17 +16,11 @@ public class QuotaController extends AbstractController<Quota> {
     }
 
     public QuotaController(Connection connection, String tableName, String refTableName) {
-        this.fishRegion = connection.getJRS(refTableName);
-        setJrs(connection.getJRS(tableName));
+        super(connection, tableName, refTableName);
     }
 
     public QuotaController(JdbcRowSet jrs) {
         super(jrs);
-    }
-
-    @Override
-    protected BaseTableModel createTableModel(JdbcRowSet jrs) {
-        return new QuotaTableModel(jrs, fishRegion);
     }
 
     @Override
