@@ -8,6 +8,7 @@ import models.sql.FishSeason;
 import org.jdesktop.swingx.JXDatePicker;
 import unit.IUniversalForm;
 
+import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboPopup;
 import java.awt.event.KeyAdapter;
@@ -21,6 +22,10 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
 
     private FishRegionController fishRegion;
 
+    public FishSeasonForm(JdbcRowSet jrs) {
+        this(new FishRegionController(jrs));
+    }
+
     public FishSeasonForm(FishRegionController fishRegion) {
         super();
         add(rootPanel);
@@ -30,7 +35,6 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
         placeNameCB.setModel(cb);
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
 
-        placeNameCB.getEditor().getEditorComponent().repaint();
         placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -98,7 +102,13 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
     }
 
     public boolean canGetFishRegionId() {
-        return placeNameCB.getSelectedIndex() != -1;
+        try {
+            if (getFishRegionId() != -1) {
+                return true;
+            } else return false;
+        } catch (Throwable t) {
+            return false;
+        }
     }
 
     public boolean canGetBeginDate() {
@@ -119,8 +129,12 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
         }
     }
 
+    protected FishRegion getFishRegion() {
+        return ((FishRegion) placeNameCB.getSelectedItem());
+    }
+
     public int getFishRegionId() {
-        return ((FishRegion) placeNameCB.getSelectedItem()).getId();
+        return getFishRegion().getId();
     }
 
     public java.sql.Date getBeginDate() {

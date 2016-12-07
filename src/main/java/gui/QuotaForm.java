@@ -29,7 +29,6 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         placeNameCB.setModel(cb);
         placeNameCB.setRenderer(new FishRegionComboBoxRenderer());
 
-        placeNameCB.getEditor().getEditorComponent().repaint();
         placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -83,7 +82,13 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     }
 
     public boolean canGetFishRegionId() {
-        return placeNameCB.getSelectedIndex() != -1;
+        try {
+            if (getFishRegionId() != -1) {
+                return true;
+            } else return false;
+        } catch (Throwable t) {
+            return false;
+        }
     }
 
     public boolean canGetYear() {
@@ -97,8 +102,12 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         }
     }
 
+    protected FishRegion getFishRegion() {
+        return ((FishRegion) placeNameCB.getSelectedItem());
+    }
+
     public int getFishRegionId() {
-        return ((FishRegion) placeNameCB.getSelectedItem()).getId();
+        return getFishRegion().getId();
     }
 
 
