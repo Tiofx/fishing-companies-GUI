@@ -21,10 +21,6 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
         return objects;
     }
 
-    public void update() {
-        fireContentsChanged(this, -1, -1);
-    }
-
     @Override
     public void setSelectedItem(Object anItem) {
         if (anItem != null) {
