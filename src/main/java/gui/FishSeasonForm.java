@@ -1,6 +1,7 @@
 package gui;
 
 import controllers.FishRegionController;
+import models.gui.ISqlModelEditor;
 import models.gui.FishRegionComboBoxModel;
 import models.gui.ISqlModelComboBoxRenderer;
 import models.sql.FishRegion;
@@ -33,6 +34,7 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
 
         ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
         placeNameCB.setModel(cb);
+        placeNameCB.setEditor(new ISqlModelEditor());
         placeNameCB.setRenderer(new ISqlModelComboBoxRenderer());
 
         placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
