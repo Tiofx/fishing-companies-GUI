@@ -1,15 +1,12 @@
 package controllers;
 
-import models.gui.BaseTableModel;
-import models.gui.QuotaTableModel;
 import models.sql.FishSeason;
 import unit.Connection;
 
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class FishSeasonController extends AbstractController<FishSeason> {
-    protected JdbcRowSet fishRegion;
+public class FishSeasonController extends AbstractControllerWithRef<FishSeason> {
 
     public FishSeasonController() {
     }
@@ -19,17 +16,11 @@ public class FishSeasonController extends AbstractController<FishSeason> {
     }
 
     public FishSeasonController(Connection connection, String tableName, String refTableName) {
-        this.fishRegion = connection.getJRS(refTableName);
-        setJrs(connection.getJRS(tableName));
+        super(connection, tableName, refTableName);
     }
 
     public FishSeasonController(JdbcRowSet jrs) {
         super(jrs);
-    }
-
-    @Override
-    protected BaseTableModel createTableModel(JdbcRowSet jrs) {
-        return new QuotaTableModel(jrs, fishRegion);
     }
 
     @Override
