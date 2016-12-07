@@ -25,26 +25,25 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         add(rootPanel);
         this.fishRegion = fishRegion;
 
-        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
-        placeNameCB.setModel(cb);
-        placeNameCB.setRenderer(new ISqlModelComboBoxRenderer());
-
-        placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-//                placeNameCB.hidePopup();
-                if (cb instanceof FishRegionComboBoxModel) {
-                    if ((String) placeNameCB.getEditor().getItem() != null) {
-                        ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
-                                new FishRegion((String) placeNameCB.getEditor().getItem(), null));
-                    } else {
-                        ((FishRegionComboBoxModel) cb).getObjects().reset();
-                    }
-                    ((BasicComboPopup) placeNameCB.getAccessibleContext().getAccessibleChild(0)).pack();
-                    placeNameCB.showPopup();
-                }
-            }
-        });
+        placeNameCB.setModel(new FishRegionComboBoxModel(fishRegion));
+//        placeNameCB.setRenderer(new ISqlModelComboBoxRenderer());
+//
+//        placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+////                placeNameCB.hidePopup();
+//                if (cb instanceof FishRegionComboBoxModel) {
+//                    if ((String) placeNameCB.getEditor().getItem() != null) {
+//                        ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
+//                                new FishRegion((String) placeNameCB.getEditor().getItem(), null));
+//                    } else {
+//                        ((FishRegionComboBoxModel) cb).getObjects().reset();
+//                    }
+//                    ((BasicComboPopup) placeNameCB.getAccessibleContext().getAccessibleChild(0)).pack();
+//                    placeNameCB.showPopup();
+//                }
+//            }
+//        });
     }
 
     public QuotaForm(JdbcRowSet jrs) {
@@ -70,7 +69,7 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
 
     @Override
     public void setRecord(Quota record) {
-        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
+        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion);
         cb.setSelectedItem(record.getFishRegionId());
         placeNameCB.setModel(cb);
         yearTxt.setText(Integer.toString(record.getYear()));

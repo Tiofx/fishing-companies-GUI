@@ -44,8 +44,8 @@ public class FishRegion implements ISqlModel {
         this.description = description;
     }
 
-//    @Override
-//    public String toString() {
-//        return placeName;
-//    }
+    @Override
+    public String toString() {
+        return placeName;
+    }
 }

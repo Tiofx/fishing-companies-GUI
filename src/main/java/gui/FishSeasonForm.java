@@ -1,9 +1,8 @@
 package gui;
 
 import controllers.FishRegionController;
-import models.gui.ISqlModelEditor;
+import gui.custom.SqlComboBox;
 import models.gui.FishRegionComboBoxModel;
-import models.gui.ISqlModelComboBoxRenderer;
 import models.sql.FishRegion;
 import models.sql.FishSeason;
 import org.jdesktop.swingx.JXDatePicker;
@@ -11,15 +10,12 @@ import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboPopup;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason> {
     private JPanel rootPanel;
-    private JComboBox placeNameCB;
     private JXDatePicker beginDate;
     private JXDatePicker endDate;
+    private SqlComboBox placeNameCB;
 
     private FishRegionController fishRegion;
 
@@ -32,27 +28,7 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
         add(rootPanel);
         this.fishRegion = fishRegion;
 
-        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
-        placeNameCB.setModel(cb);
-        placeNameCB.setEditor(new ISqlModelEditor());
-        placeNameCB.setRenderer(new ISqlModelComboBoxRenderer());
-
-        placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-//                placeNameCB.hidePopup();
-                if (cb instanceof FishRegionComboBoxModel) {
-                    if ((String) placeNameCB.getEditor().getItem() != null) {
-                        ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
-                                new FishRegion((String) placeNameCB.getEditor().getItem(), null));
-                    } else {
-                        ((FishRegionComboBoxModel) cb).getObjects().reset();
-                    }
-                    ((BasicComboPopup) placeNameCB.getAccessibleContext().getAccessibleChild(0)).pack();
-                    placeNameCB.showPopup();
-                }
-            }
-        });
+        placeNameCB.setModel(new FishRegionComboBoxModel(fishRegion));
     }
 
     public FishSeasonForm() {
@@ -91,11 +67,12 @@ public class FishSeasonForm extends JPanel implements IUniversalForm<FishSeason>
 
     @Override
     public void setRecord(FishSeason record) {
-        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion.getJrs());
+        ComboBoxModel cb = new FishRegionComboBoxModel(fishRegion);
         cb.setSelectedItem(record.getFishRegionId());
         placeNameCB.setModel(cb);
         beginDate.setDate(new java.util.Date(record.getBegin().getTime()));
         endDate.setDate(new java.util.Date(record.getEnd().getTime()));
+
     }
 
     @Override

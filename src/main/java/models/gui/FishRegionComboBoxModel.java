@@ -1,24 +1,23 @@
 package models.gui;
 
-import controllers.FishRegionController;
+import controllers.AbstractController;
 import gui.FishRegionForm;
 import models.sql.FishRegion;
 import unit.Dialog;
 
-import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
-import java.sql.SQLException;
 
-public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> implements ComboBoxModel<FishRegion> {
-    protected FishRegionController objects;
-    protected FishRegion selectedObject;
+public class FishRegionComboBoxModel extends AbstractSqlComboBoxModel<FishRegion> {
 
-    public FishRegionComboBoxModel(JdbcRowSet objects) {
-        this.objects = new FishRegionController(objects);
+
+    public FishRegionComboBoxModel(AbstractController<FishRegion> objects) {
+        super(objects);
     }
 
-    public FishRegionController getObjects() {
-        return objects;
+    @Override
+    public void findBy(String field) {
+        objects.fullFind(new Boolean[]{false, true, false},
+                new FishRegion(field, null));
     }
 
     @Override
@@ -30,7 +29,6 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
                         selectedObject == null) {
 
                     selectedObject = (FishRegion) anItem;
-//                    objects.edit(selectedObject);
                     fireContentsChanged(this, -1, -1);
                 }
             } else if (anItem instanceof Integer) {
@@ -76,30 +74,4 @@ public class FishRegionComboBoxModel extends AbstractListModel<FishRegion> imple
         }
     }
 
-    @Override
-    public Object getSelectedItem() {
-        return selectedObject;
-    }
-
-    @Override
-    public int getSize() {
-        try {
-            objects.getJrs().last();
-            return objects.getJrs().getRow();
-        } catch (SQLException e) {
-            return 0;
-        }
-    }
-
-    @Override
-    public FishRegion getElementAt(int index) {
-        if (index == -1)
-            return null;
-        try {
-            return objects.getRecord(index + 1);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }
