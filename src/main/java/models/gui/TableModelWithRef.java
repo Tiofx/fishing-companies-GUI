@@ -3,18 +3,18 @@ package models.gui;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class QuotaTableModel extends BaseTableModel {
+public class TableModelWithRef extends BaseTableModel {
     protected final int replaceableNumber = 2;
     protected final int whatReplace = 1;
     protected JdbcRowSet joinable;
     protected int lastSize = -1;
 
-    public QuotaTableModel(JdbcRowSet tableResultSet, JdbcRowSet joinable) {
+    public TableModelWithRef(JdbcRowSet tableResultSet, JdbcRowSet joinable) {
         super(tableResultSet);
         this.joinable = joinable;
     }
 
-    public QuotaTableModel(JdbcRowSet tableResultSet, int skipFirst, JdbcRowSet joinable) {
+    public TableModelWithRef(JdbcRowSet tableResultSet, int skipFirst, JdbcRowSet joinable) {
         super(tableResultSet, skipFirst);
         this.joinable = joinable;
     }

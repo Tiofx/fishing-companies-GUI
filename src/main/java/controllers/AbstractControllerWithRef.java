@@ -1,7 +1,7 @@
 package controllers;
 
 import models.gui.BaseTableModel;
-import models.gui.QuotaTableModel;
+import models.gui.TableModelWithRef;
 import unit.Connection;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -27,6 +27,6 @@ public abstract class AbstractControllerWithRef<T> extends AbstractController<T>
 
     @Override
     protected BaseTableModel createTableModel(JdbcRowSet jrs) {
-        return new QuotaTableModel(jrs, reference);
+        return new TableModelWithRef(jrs, reference);
     }
 }
