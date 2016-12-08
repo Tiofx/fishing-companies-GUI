@@ -65,7 +65,7 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
 
     @Override
     public Boolean[] canGets() {
-        return new Boolean[]{canGetFishId(), canGetWeight()};
+        return new Boolean[]{canGetVoyageId(), canGetFishId(), canGetWeight()};
     }
 
     public boolean canGetFishId() {
