@@ -2,16 +2,12 @@ package gui;
 
 import controllers.FishRegionController;
 import models.gui.FishRegionComboBoxModel;
-import models.gui.ISqlModelComboBoxRenderer;
 import models.sql.FishRegion;
 import models.sql.Quota;
 import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboPopup;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
     private JPanel rootPanel;
@@ -26,24 +22,6 @@ public class QuotaForm extends JPanel implements IUniversalForm<Quota> {
         this.fishRegion = fishRegion;
 
         placeNameCB.setModel(new FishRegionComboBoxModel(fishRegion));
-//        placeNameCB.setRenderer(new ISqlModelComboBoxRenderer());
-//
-//        placeNameCB.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyReleased(KeyEvent e) {
-////                placeNameCB.hidePopup();
-//                if (cb instanceof FishRegionComboBoxModel) {
-//                    if ((String) placeNameCB.getEditor().getItem() != null) {
-//                        ((FishRegionComboBoxModel) cb).getObjects().fullFind(new Boolean[]{false, true, false},
-//                                new FishRegion((String) placeNameCB.getEditor().getItem(), null));
-//                    } else {
-//                        ((FishRegionComboBoxModel) cb).getObjects().reset();
-//                    }
-//                    ((BasicComboPopup) placeNameCB.getAccessibleContext().getAccessibleChild(0)).pack();
-//                    placeNameCB.showPopup();
-//                }
-//            }
-//        });
     }
 
     public QuotaForm(JdbcRowSet jrs) {
