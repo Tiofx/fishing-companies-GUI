@@ -2,7 +2,6 @@ package models.gui;
 
 import controllers.AbstractController;
 import models.sql.Fish;
-import models.sql.FishRegion;
 
 public class FishComboBoxModel extends AbstractSqlComboBoxModel<Fish> {
     public FishComboBoxModel(AbstractController<Fish> objects) {
@@ -12,13 +11,13 @@ public class FishComboBoxModel extends AbstractSqlComboBoxModel<Fish> {
     @Override
     public void findBy(String field) {
         objects.fullFind(new Boolean[]{false, true, false},
-                new Fish(field, 0));
+                new Fish(field, -1));
     }
 
     @Override
     public void setSelectedItem(Object anItem) {
         if (anItem != null) {
-            if (anItem instanceof FishRegion) {
+            if (anItem instanceof Fish) {
                 if ((selectedObject != null
                         && !selectedObject.equals(anItem)) ||
                         selectedObject == null) {

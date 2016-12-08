@@ -12,8 +12,11 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
     private JPanel rootPanel;
     private JComboBox fishNameCB;
     private JTextField weightTxt;
+    // TODO: 08/12/2016 change on voyageController
+    private JTextField voyageIdTxt;
 
     private FishController fishController;
+//    private VoyageController voyageController;
 
     public FishCatchForm() {
         super();
@@ -25,11 +28,12 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
         this.fishController = fishController;
 
         fishNameCB.setModel(new FishComboBoxModel(fishController));
+//        voyageIdCB.setModel(new VoyageComboBoxModel(voyageController));
     }
 
     @Override
     public FishCatch getRecord() {
-        return new FishCatch(getFishId(), getWeight());
+        return new FishCatch(getVoyageId(), getFishId(), getWeight());
     }
 
     @Override
@@ -46,6 +50,12 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
 
     @Override
     public void setRecord(FishCatch record) {
+        // TODO: 08/12/2016 change on voyageIdCB
+        voyageIdTxt.setText(String.valueOf(record.getVoyageId()));
+//        ComboBoxModel voyage = new VoyageComboBoxModel(voyageController);
+//        voyage.setSelectedItem(record.getVoyageId());
+//        voyageIdCB.setModel(new VoyageComboBoxModel(voyageController));
+
         ComboBoxModel cb = new FishComboBoxModel(fishController);
         cb.setSelectedItem(record.getFishId());
         fishNameCB.setModel(cb);
@@ -78,6 +88,24 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
             return false;
         }
     }
+
+    public boolean canGetVoyageId() {
+        try {
+            getVoyageId();
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    public int getVoyageId() {
+//        return getVoyage().getId();
+        return Integer.parseInt(voyageIdTxt.getText());
+    }
+
+//    protected Voyage getVoyage() {
+//        return (Voyage) voyageIdCB.getSelectedItem();
+//    }
 
     protected Fish getFish() {
         return (Fish) fishNameCB.getSelectedItem();
