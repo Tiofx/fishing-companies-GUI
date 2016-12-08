@@ -1,4 +1,4 @@
-package models.gui;
+package models.gui.comboBox;
 
 import controllers.AbstractController;
 

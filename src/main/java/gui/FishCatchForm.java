@@ -1,7 +1,7 @@
 package gui;
 
 import controllers.FishController;
-import models.gui.FishComboBoxModel;
+import models.gui.comboBox.FishComboBoxModel;
 import models.sql.Fish;
 import models.sql.FishCatch;
 import unit.IUniversalForm;

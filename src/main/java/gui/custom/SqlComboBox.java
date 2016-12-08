@@ -1,7 +1,7 @@
 package gui.custom;
 
-import models.gui.AbstractSqlComboBoxModel;
-import models.gui.ISqlModelComboBoxRenderer;
+import models.gui.comboBox.AbstractSqlComboBoxModel;
+import models.gui.comboBox.ISqlModelComboBoxRenderer;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboPopup;

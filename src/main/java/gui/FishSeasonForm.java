@@ -2,7 +2,7 @@ package gui;
 
 import controllers.FishRegionController;
 import gui.custom.SqlComboBox;
-import models.gui.FishRegionComboBoxModel;
+import models.gui.comboBox.FishRegionComboBoxModel;
 import models.sql.FishRegion;
 import models.sql.FishSeason;
 import org.jdesktop.swingx.JXDatePicker;
