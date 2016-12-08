@@ -11,6 +11,10 @@ public class FishCatch implements ISqlModel {
         this(0, 0, 0);
     }
 
+    public FishCatch(int fishId, int weight) {
+        this(-1, fishId, weight);
+    }
+
     public FishCatch(int voyageId, int fishId, int weight) {
         this(-1, voyageId, fishId, weight);
     }
