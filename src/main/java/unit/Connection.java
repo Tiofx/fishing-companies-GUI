@@ -31,7 +31,16 @@ public class Connection {
 
     protected Statement stmt;
 
-    protected final String[] tablesName = {"fish", "ship", "captain", "inventory", "fishRegion", "quota", "fishSeason"};
+    protected final String[] tablesName = {
+            "fish",
+            "ship",
+            "captain",
+            "inventory",
+            "fishRegion",
+            "quota",
+            "fishSeason",
+            "fishCatch"
+    };
     protected final int tablesNumber = tablesName.length;
 
     public Connection() {
@@ -64,6 +73,8 @@ public class Connection {
         formFactory.add(ShipController.class, ShipForm::new);
         formFactory.add(QuotaController.class, () -> new QuotaForm(getJRS("fishRegion")));
         formFactory.add(FishSeasonController.class, () -> new FishSeasonForm(getJRS("fishRegion")));
+        formFactory.add(FishCatchController.class, () ->
+                new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
     }
 
     public void startConnection() {
