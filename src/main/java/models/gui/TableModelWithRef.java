@@ -34,8 +34,8 @@ public class TableModelWithRef extends BaseTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == whatReplace - 1) {
-            int id = (int) super.getValueAt(rowIndex, columnIndex);
             try {
+                int id = (int) super.getValueAt(rowIndex, columnIndex);
                 // TODO: 05/12/2016 ineffective
                 joinable.execute();
                 joinable.beforeFirst();
@@ -44,10 +44,10 @@ public class TableModelWithRef extends BaseTableModel {
                         return joinable.getObject(replaceableNumber);
                     }
                 }
-                return "incorrect";
-            } catch (SQLException e) {
+                return null;
+            } catch (Exception e) {
                 e.printStackTrace();
-                return "error get value";
+                return null;
             }
         } else
             return super.getValueAt(rowIndex, columnIndex);

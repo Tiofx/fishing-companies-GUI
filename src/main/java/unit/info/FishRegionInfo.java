@@ -10,7 +10,7 @@ public class FishRegionInfo implements IInfo<FishRegion> {
 
     @Override
     public String info(FishRegion object) {
-        return "place name: [" + object.getPlaceName() + "] description: [" + object.getDescription() + "]";
+        return "id: [" + object.getId() + "] [" + object.getPlaceName() + "]";
     }
 
     @Override

@@ -1,12 +1,8 @@
 package unit;
 
-import models.sql.Fish;
-import models.sql.FishRegion;
-import models.sql.ISqlModel;
+import models.sql.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import unit.info.FishInfo;
-import unit.info.FishRegionInfo;
-import unit.info.IInfo;
+import unit.info.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +13,10 @@ public class UniversalInfo implements IInfo<ISqlModel> {
     public UniversalInfo() {
         functionSet.put(FishRegion.class, new FishRegionInfo());
         functionSet.put(Fish.class, new FishInfo());
+        functionSet.put(Captain.class, new CaptainInfo());
+        functionSet.put(Ship.class, new ShipInfo());
+        functionSet.put(FishSeason.class, new FishSeasonInfo());
+        functionSet.put(Quota.class, new QuotaInfo());
     }
 
     @Override

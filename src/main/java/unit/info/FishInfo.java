@@ -10,7 +10,7 @@ public class FishInfo implements IInfo<Fish> {
 
     @Override
     public String info(Fish object) {
-        return "name: [" + object.getName() + "] price: [" + object.getPrice() + "]";
+        return "id [" + object.getId() + "] [" + object.getName() + "]";
     }
 
     @Override
