@@ -20,6 +20,7 @@ public class ControllerFactoryByTableName extends ControllerFactory<String> {
         add("ship", () -> new ShipController(connection, "ship"));
         add("fishSeason", () -> new FishSeasonController(connection, "fishSeason"));
         add("fishCatch", () -> new FishCatchController(connection, "fishCatch"));
+        add("voyage", () -> new VoyageController(connection, "voyage"));
     }
 
     public AbstractController getInstance(JdbcRowSet id) {
