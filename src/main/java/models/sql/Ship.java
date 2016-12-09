@@ -5,7 +5,6 @@ public class Ship implements ISqlModel {
     private int id;
     private String name;
 
-
     public Ship() {
         this(null);
     }
@@ -33,5 +32,10 @@ public class Ship implements ISqlModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

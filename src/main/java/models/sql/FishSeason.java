@@ -55,4 +55,9 @@ public class FishSeason implements ISqlModel {
     public void setEnd(Date end) {
         this.end = end;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(fishRegionId);
+    }
 }

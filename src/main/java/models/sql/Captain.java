@@ -43,4 +43,9 @@ public class Captain implements ISqlModel {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+    @Override
+    public String toString() {
+        return fio;
+    }
 }

@@ -43,4 +43,9 @@ public class Quota implements ISqlModel {
     public void setYear(short year) {
         this.year = year;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(year);
+    }
 }
