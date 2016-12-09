@@ -21,7 +21,7 @@ public class BaseTableModel extends AbstractTableModel {
     public int getRowCount() {
         try {
             tableResultSet.last();
-            return tableResultSet.getRow();
+            return tableResultSet.getRow() + 1;
         } catch (SQLException e) {
             return 0;
         }

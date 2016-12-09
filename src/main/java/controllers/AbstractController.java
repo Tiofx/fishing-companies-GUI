@@ -7,6 +7,7 @@ import unit.PreparedConditions;
 
 import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -46,7 +47,8 @@ public abstract class AbstractController<T> {
 
     protected JTable createView() {
         final AbstractController thisController = this;
-        JTable view = new JTable(tableModel);
+        final TableModel model = tableModel;
+        final JTable view = new JTable(model);
         view.setAutoCreateRowSorter(false);
         view.setShowGrid(true);
         view.setGridColor(Color.GRAY);
@@ -55,10 +57,16 @@ public abstract class AbstractController<T> {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    IUniversalForm inputForm = Connection.formFactory.getInstance(thisController.getClass());
-                    inputForm.setRecord(thisController.getRecordSelectedInTable());
-                    unit.Dialog.makeOperation("edit", inputForm, a -> thisController.editSelectedInTable(a));
-                    thisController.update();
+                    if (view.getSelectedRow() != -1) {
+                        IUniversalForm inputForm = Connection.formFactory.getInstance(thisController.getClass());
+                        if (view.getSelectedRow() < view.getModel().getRowCount() - 1) {
+                            inputForm.setRecord(thisController.getRecordSelectedInTable());
+                            unit.Dialog.makeOperation("edit", inputForm, a -> thisController.editSelectedInTable(a));
+                        } else {
+                            unit.Dialog.makeOperation("add", inputForm, a -> thisController.insert(a));
+                        }
+                        thisController.update();
+                    }
                 }
                 super.mouseClicked(e);
             }
