@@ -24,6 +24,8 @@ public class VoyageForm extends JPanel implements IUniversalForm<Voyage> {
     private SqlComboBox quotaCB;
     private DateTimePicker departureDatePicker;
     private DateTimePicker returnDatePicker;
+    private JScrollPane quotaSP;
+    private JScrollPane inventorySP;
 
     private CaptainController captainController;
     private ShipController shipController;
@@ -205,7 +207,7 @@ public class VoyageForm extends JPanel implements IUniversalForm<Voyage> {
     }
 
     protected Ship getShip() {
-        return (Ship) quotaCB.getSelectedItem();
+        return (Ship) shipNameCB.getSelectedItem();
     }
 
     protected FishSeason getFishSeason() {
