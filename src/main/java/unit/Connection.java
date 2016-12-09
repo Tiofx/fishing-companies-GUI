@@ -32,15 +32,15 @@ public class Connection {
     protected Statement stmt;
 
     protected final String[] tablesName = {
+            "voyage",
             "fish",
             "ship",
             "captain",
             "inventory",
             "fishRegion",
             "quota",
-            "fishSeason",
-            "voyage",
-            "fishCatch"
+//            "fishCatch",
+            "fishSeason"
     };
     protected final int tablesNumber = tablesName.length;
 
@@ -76,12 +76,21 @@ public class Connection {
         formFactory.add(FishSeasonController.class, () -> new FishSeasonForm(getJRS("fishRegion")));
         formFactory.add(FishCatchController.class, () ->
                 new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
-        formFactory.add(VoyageController.class, () -> new VoyageForm(
+//        formFactory.add(VoyageController.class, () -> new VoyageForm(
+//                (CaptainController) controllerFactory.getInstance("captain"),
+//                (ShipController) controllerFactory.getInstance("ship"),
+//                (FishSeasonController) controllerFactory.getInstance("fishSeason"),
+//                (QuotaController) controllerFactory.getInstance("quota")
+//        ));
+        formFactory.add(VoyageController.class, () -> new FullVoyageForm(
                 (CaptainController) controllerFactory.getInstance("captain"),
                 (ShipController) controllerFactory.getInstance("ship"),
                 (FishSeasonController) controllerFactory.getInstance("fishSeason"),
-                (QuotaController) controllerFactory.getInstance("quota")
+                (QuotaController) controllerFactory.getInstance("quota"),
+                (FishCatchController) controllerFactory.getInstance("fishCatch")
         ));
+        formFactory.add(FishCatchControllerForVoyageForm.class, () ->
+                new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
     }
 
     public void startConnection() {

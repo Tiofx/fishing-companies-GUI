@@ -48,6 +48,7 @@
         </constraints>
         <properties>
           <text value="voyage Id:"/>
+          <visible value="false"/>
         </properties>
       </component>
       <component id="e68e8" class="javax.swing.JTextField" binding="voyageIdTxt">
@@ -58,6 +59,7 @@
         </constraints>
         <properties>
           <text value=""/>
+          <visible value="false"/>
         </properties>
       </component>
     </children>

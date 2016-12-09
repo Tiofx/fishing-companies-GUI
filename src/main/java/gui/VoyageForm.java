@@ -24,8 +24,8 @@ public class VoyageForm extends JPanel implements IUniversalForm<Voyage> {
     private SqlComboBox quotaCB;
     private DateTimePicker departureDatePicker;
     private DateTimePicker returnDatePicker;
-    private JScrollPane quotaSP;
-    private JScrollPane inventorySP;
+    protected JScrollPane fishCatchSP;
+    protected JScrollPane inventorySP;
 
     private CaptainController captainController;
     private ShipController shipController;

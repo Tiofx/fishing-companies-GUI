@@ -83,7 +83,8 @@ public class MainForm extends JFrame {
         editButton.setMnemonic(KeyEvent.VK_E);
         findButton.setMnemonic(KeyEvent.VK_F);
         resetButton.setMnemonic(KeyEvent.VK_R);
-        deleteButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
+        deleteButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
         deleteButton.getActionMap().put("delete", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {

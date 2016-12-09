@@ -1,8 +1,7 @@
 package unit.factories;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -13,7 +12,7 @@ public class Factory<T, R> {
         if (creators.containsKey(id)) {
             return creators.get(id).get();
         } else {
-            throw new NotImplementedException();
+            throw new InputMismatchException("no product for [" + id.toString() + "]");
         }
     }
 
