@@ -251,9 +251,9 @@ public abstract class AbstractController<T> {
         tableModel.fireTableDataChanged();
     }
 
-    public final boolean reset() {
+    protected final boolean customReset(String command) {
         try {
-            jrs.setCommand(baseStatement);
+            jrs.setCommand(command);
             jrs.execute();
             jrs.next();
 
@@ -264,6 +264,11 @@ public abstract class AbstractController<T> {
             e.printStackTrace();
             return false;
         }
+
+    }
+
+    public boolean reset() {
+        return customReset(baseStatement);
     }
 
     protected String formPreparedStatement(Boolean[] f, int columnCount) {
