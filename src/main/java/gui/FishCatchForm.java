@@ -12,11 +12,9 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
     private JPanel rootPanel;
     private JComboBox fishNameCB;
     private JTextField weightTxt;
-    // TODO: 08/12/2016 change on voyageController
     private JTextField voyageIdTxt;
 
     private FishController fishController;
-//    private VoyageController voyageController;
 
     public FishCatchForm() {
         super();
@@ -28,7 +26,6 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
         this.fishController = fishController;
 
         fishNameCB.setModel(new FishComboBoxModel(fishController));
-//        voyageIdCB.setModel(new VoyageComboBoxModel(voyageController));
     }
 
     @Override
@@ -50,11 +47,7 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
 
     @Override
     public void setRecord(FishCatch record) {
-        // TODO: 08/12/2016 change on voyageIdCB
         voyageIdTxt.setText(String.valueOf(record.getVoyageId()));
-//        ComboBoxModel voyage = new VoyageComboBoxModel(voyageController);
-//        voyage.setSelectedItem(record.getVoyageId());
-//        voyageIdCB.setModel(new VoyageComboBoxModel(voyageController));
 
         ComboBoxModel cb = new FishComboBoxModel(fishController);
         cb.setSelectedItem(record.getFishId());
@@ -99,13 +92,9 @@ public class FishCatchForm extends JPanel implements IUniversalForm<FishCatch> {
     }
 
     public int getVoyageId() {
-//        return getVoyage().getId();
         return Integer.parseInt(voyageIdTxt.getText());
     }
 
-//    protected Voyage getVoyage() {
-//        return (Voyage) voyageIdCB.getSelectedItem();
-//    }
 
     protected Fish getFish() {
         return (Fish) fishNameCB.getSelectedItem();

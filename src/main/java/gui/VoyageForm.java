@@ -26,6 +26,8 @@ public class VoyageForm extends JPanel implements IUniversalForm<Voyage> {
     private DateTimePicker returnDatePicker;
     protected JScrollPane fishCatchSP;
     protected JScrollPane inventorySP;
+    protected JLabel l1;
+    protected JLabel l2;
 
     private CaptainController captainController;
     private ShipController shipController;

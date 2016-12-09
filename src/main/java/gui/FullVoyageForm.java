@@ -26,12 +26,7 @@ public class FullVoyageForm extends VoyageForm {
 
         super(captainController, shipController, fishSeasonController, quotaController);
         this.controller = controller;
-//        this.fishCatchController = new FishCatchControllerForVoyageForm(controller, voyageId);
         this.inventoryController = new InventoryControllerForVoyageForm(controller2, controller3, voyageId);
-
-//        fishCatchSP.setViewportView(fishCatchController.getView());
-//        fishCatchSP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-//        fishCatchSP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         this.controller2 = controller2;
         this.controller3 = controller3;
@@ -39,6 +34,11 @@ public class FullVoyageForm extends VoyageForm {
         inventorySP.setViewportView(inventoryController.getView());
         inventorySP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         inventorySP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        l1.setVisible(false);
+        l2.setVisible(false);
+        inventorySP.setVisible(false);
+        fishCatchSP.setVisible(false);
     }
 
     public void setVoyageId(int voyageId) {
@@ -65,5 +65,10 @@ public class FullVoyageForm extends VoyageForm {
         inventorySP.setViewportView(inventoryController.getView());
         inventorySP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         inventorySP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        l1.setVisible(true);
+        l2.setVisible(true);
+        inventorySP.setVisible(true);
+        fishCatchSP.setVisible(true);
     }
 }

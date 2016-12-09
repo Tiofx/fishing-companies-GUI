@@ -6,7 +6,7 @@ import unit.Connection;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class QuotaController extends AbstractControllerWithRef<Quota> {
+public class QuotaController extends AbstractController<Quota> {
 
     public QuotaController() {
     }
@@ -16,7 +16,7 @@ public class QuotaController extends AbstractControllerWithRef<Quota> {
     }
 
     public QuotaController(Connection connection, String tableName, String refTableName) {
-        super(connection, tableName, refTableName);
+        super(connection, tableName);
     }
 
     public QuotaController(JdbcRowSet jrs) {

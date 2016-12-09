@@ -1,19 +1,11 @@
 package controllers;
 
-import gui.FullVoyageForm;
 import models.sql.Voyage;
 import unit.Connection;
-import unit.IUniversalForm;
 
 import javax.sql.rowset.JdbcRowSet;
-import javax.swing.*;
-import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
-@Deprecated
 public class VoyageController extends AbstractController<Voyage> {
     public VoyageController() {
     }

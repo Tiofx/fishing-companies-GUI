@@ -6,7 +6,7 @@ import unit.Connection;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
-public class FishSeasonController extends AbstractControllerWithRef<FishSeason> {
+public class FishSeasonController extends AbstractController<FishSeason> {
 
     public FishSeasonController() {
     }
@@ -16,7 +16,7 @@ public class FishSeasonController extends AbstractControllerWithRef<FishSeason> 
     }
 
     public FishSeasonController(Connection connection, String tableName, String refTableName) {
-        super(connection, tableName, refTableName);
+        super(connection, tableName);
     }
 
     public FishSeasonController(JdbcRowSet jrs) {

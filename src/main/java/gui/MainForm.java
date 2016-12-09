@@ -15,7 +15,6 @@ public class MainForm extends JFrame {
 
     private Connection connection;
     private final AbstractController[] allControllers;
-//    private final FormFactory<Class> formFactory = new FormFactory<>();
 
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;

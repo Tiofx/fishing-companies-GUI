@@ -296,7 +296,13 @@ public abstract class AbstractController<T> {
     }
 
     protected String getPreparedCondition(int i) {
-        return PreparedConditions.startWith;
+        try {
+            jrs.getString(i);
+            return PreparedConditions.startWith;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return PreparedConditions.equal;
     }
 
     protected void createSortedInfo() {

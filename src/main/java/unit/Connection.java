@@ -25,7 +25,6 @@ public class Connection {
 
     public java.sql.Connection connection;
 
-    // TODO: 30/11/2016 change this
     public static final FormFactory<Class> formFactory = new FormFactory<>();
     public static ControllerFactory<String> controllerFactory;
 
@@ -75,12 +74,6 @@ public class Connection {
         formFactory.add(FishSeasonController.class, () -> new FishSeasonForm(getJRS("fishRegion")));
         formFactory.add(FishCatchController.class, () ->
                 new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
-//        formFactory.add(VoyageController.class, () -> new VoyageForm(
-//                (CaptainController) controllerFactory.getInstance("captain"),
-//                (ShipController) controllerFactory.getInstance("ship"),
-//                (FishSeasonController) controllerFactory.getInstance("fishSeason"),
-//                (QuotaController) controllerFactory.getInstance("quota")
-//        ));
         formFactory.add(VoyageController.class, () -> new FullVoyageForm(
                 (CaptainController) controllerFactory.getInstance("captain"),
                 (ShipController) controllerFactory.getInstance("ship"),
@@ -103,14 +96,11 @@ public class Connection {
             Class.forName(driverName);
             url = "jdbc:mysql://" + ip + ":" + port + "/" + dataBaseName
                     + "?user=" + userName + "&password=" + userPassword;
-//            connection = DriverManager.getConnection(url, userName, userPassword);
             connection = DriverManager.getConnection(url);
 
             stmt = connection.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-
-//            ResultSet fishRS = stmt.executeQuery("SELECT * FROM fish");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
