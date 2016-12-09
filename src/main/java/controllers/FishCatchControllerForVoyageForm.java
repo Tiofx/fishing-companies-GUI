@@ -7,6 +7,8 @@ import unit.IUniversalForm;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -36,6 +38,18 @@ public class FishCatchControllerForVoyageForm extends FishCatchController {
         view.setAutoCreateRowSorter(false);
         view.setShowGrid(true);
         view.setGridColor(Color.GRAY);
+
+        view.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_DELETE && view.hasFocus() && view.getSelectedRow() != -1) {
+                    while (thisController.deleteSelectedInTable()) ;
+                    reset();
+                    thisController.update();
+                }
+            }
+        });
 
         view.addMouseListener(new MouseAdapter() {
             @Override

@@ -39,7 +39,6 @@ public class Connection {
             "inventory",
             "fishRegion",
             "quota",
-//            "fishCatch",
             "fishSeason"
     };
     protected final int tablesNumber = tablesName.length;
@@ -93,8 +92,7 @@ public class Connection {
         ));
         formFactory.add(FishCatchControllerForVoyageForm.class, () ->
                 new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
-        formFactory.add(InventoryControllerForVoyageForm.class, () ->
-                new VoyageInventoryForm((InventoryController) controllerFactory.getInstance("inventory")));
+        formFactory.add(InventoryControllerForVoyageForm.class, InventoryForm::new);
         formFactory.add(VoyageInventoryController.class, () ->
                 new VoyageInventoryForm((InventoryController) controllerFactory.getInstance("inventory")));
     }
