@@ -21,6 +21,9 @@ public class SqlComboBox<E> extends JComboBox<E> {
                 if (getEditor().getItem() != null
                         && !getEditor().getItem().toString().equals("")) {
                     ((AbstractSqlComboBoxModel) getModel()).findBy(getEditor().getItem().toString());
+                    if (((AbstractSqlComboBoxModel) getModel()).getSize() <= 2) {
+                        hidePopup();
+                    }
                 } else {
                     ((AbstractSqlComboBoxModel) getModel()).getObjects().reset();
                 }
