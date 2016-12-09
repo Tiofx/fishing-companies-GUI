@@ -62,14 +62,6 @@ public class FishCatchControllerForVoyageForm extends FishCatchController {
                 super.mouseClicked(e);
             }
         });
-//        view.getTableHeader().addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//                Point point = e.getPoint();
-//                int column = view.columnAtPoint(point);
-//                thisController.sort(column + 1);
-//            }
-//        });
 
         return view;
     }

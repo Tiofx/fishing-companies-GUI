@@ -111,8 +111,8 @@ public class VoyageForm extends JPanel implements IUniversalForm<Voyage> {
     @Override
     public Boolean[] canGets() {
         return new Boolean[]{canGetCaptainId(), canGetShipId(), canGetFishSeasonId(),
-                canGetQuotaId(), canGetDepartureDate(), canGetReturnDate(),
-                isReturnDateGreaterThenDeparture()};
+                canGetQuotaId(), canGetDepartureDate(), canGetReturnDate()};
+//                isReturnDateGreaterThenDeparture()};
     }
 
     public boolean canGetCaptainId() {
