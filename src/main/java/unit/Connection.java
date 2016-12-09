@@ -87,10 +87,16 @@ public class Connection {
                 (ShipController) controllerFactory.getInstance("ship"),
                 (FishSeasonController) controllerFactory.getInstance("fishSeason"),
                 (QuotaController) controllerFactory.getInstance("quota"),
-                (FishCatchController) controllerFactory.getInstance("fishCatch")
+                (FishCatchController) controllerFactory.getInstance("fishCatch"),
+                (InventoryController) controllerFactory.getInstance("inventory"),
+                (VoyageInventoryController) controllerFactory.getInstance("voyage_inventory")
         ));
         formFactory.add(FishCatchControllerForVoyageForm.class, () ->
                 new FishCatchForm((FishController) controllerFactory.getInstance("fish")));
+        formFactory.add(InventoryControllerForVoyageForm.class, () ->
+                new VoyageInventoryForm((InventoryController) controllerFactory.getInstance("inventory")));
+        formFactory.add(VoyageInventoryController.class, () ->
+                new VoyageInventoryForm((InventoryController) controllerFactory.getInstance("inventory")));
     }
 
     public void startConnection() {

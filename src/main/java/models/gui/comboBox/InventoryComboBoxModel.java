@@ -1,38 +1,33 @@
 package models.gui.comboBox;
 
 import controllers.AbstractController;
-import models.sql.FishSeason;
+import models.sql.Inventory;
 
-public class FishSeasonComboBoxModel extends AbstractSqlComboBoxModel<FishSeason> {
-    public FishSeasonComboBoxModel(AbstractController<FishSeason> objects) {
+public class InventoryComboBoxModel extends AbstractSqlComboBoxModel<Inventory> {
+    public InventoryComboBoxModel(AbstractController<Inventory> objects) {
         super(objects);
     }
 
     @Override
     public void findBy(String field) {
-        try {
-            Integer.parseInt(field);
-        } catch (Throwable t) {
-            return;
-        }
         objects.fullFind(new Boolean[]{false, true, false, false},
-                new FishSeason(Integer.parseInt(field), null, null));
+                new Inventory(field, 0, 0));
     }
 
     @Override
     public void setSelectedItem(Object anItem) {
         if (anItem != null) {
-            if (anItem instanceof FishSeason) {
+            if (anItem instanceof Inventory) {
                 if ((selectedObject != null
                         && !selectedObject.equals(anItem)) ||
                         selectedObject == null) {
 
-                    selectedObject = (FishSeason) anItem;
+                    selectedObject = (Inventory) anItem;
                     fireContentsChanged(this, -1, -1);
                 }
             } else if (anItem instanceof Integer) {
                 objects.fullFind(new Boolean[]{true, false, false, false},
-                        new FishSeason((int) anItem, 0, null, null));
+                        new Inventory((int) anItem, null, 0, 0));
 
                 selectedObject = objects.getRecord(1);
 

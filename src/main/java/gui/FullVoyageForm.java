@@ -4,6 +4,7 @@ import controllers.*;
 import models.sql.Voyage;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class FullVoyageForm extends VoyageForm {
     protected int voyageId;
@@ -11,19 +12,33 @@ public class FullVoyageForm extends VoyageForm {
     protected FishCatchController controller;
     protected FishCatchController fishCatchController;
 
+    protected InventoryController controller2;
+    protected VoyageInventoryController controller3;
+    protected InventoryController inventoryController;
+
     public FullVoyageForm() {
     }
 
     public FullVoyageForm(CaptainController captainController, ShipController shipController,
                           FishSeasonController fishSeasonController, QuotaController quotaController,
-                          FishCatchController controller) {
+                          FishCatchController controller, InventoryController controller2,
+                          VoyageInventoryController controller3) {
+
         super(captainController, shipController, fishSeasonController, quotaController);
         this.controller = controller;
-        this.fishCatchController = new FishCatchControllerForVoyageForm(controller, voyageId);
+//        this.fishCatchController = new FishCatchControllerForVoyageForm(controller, voyageId);
+        this.inventoryController = new InventoryControllerForVoyageForm(controller2, controller3, voyageId);
 
-        fishCatchSP.setViewportView(fishCatchController.getView());
-        fishCatchSP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        fishCatchSP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//        fishCatchSP.setViewportView(fishCatchController.getView());
+//        fishCatchSP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//        fishCatchSP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        this.controller2 = controller2;
+        this.controller3 = controller3;
+
+        inventorySP.setViewportView(inventoryController.getView());
+        inventorySP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        inventorySP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
     public void setVoyageId(int voyageId) {
@@ -40,9 +55,15 @@ public class FullVoyageForm extends VoyageForm {
         super.setRecord(record);
         voyageId = record.getId();
         fishCatchController = new FishCatchControllerForVoyageForm(controller, voyageId);
+        inventoryController = new InventoryControllerForVoyageForm(controller2, controller3, voyageId);
 
+        fishCatchController.getView().setMaximumSize(new Dimension(400, 200));
         fishCatchSP.setViewportView(fishCatchController.getView());
         fishCatchSP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         fishCatchSP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        inventorySP.setViewportView(inventoryController.getView());
+        inventorySP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        inventorySP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 }

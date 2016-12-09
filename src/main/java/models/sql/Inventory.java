@@ -53,4 +53,9 @@ public class Inventory implements ISqlModel {
     public void setManufactureDate(int manufactureDate) {
         this.manufactureDate = manufactureDate;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

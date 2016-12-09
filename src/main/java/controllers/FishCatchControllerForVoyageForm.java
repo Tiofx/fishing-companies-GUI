@@ -4,7 +4,6 @@ import models.sql.FishCatch;
 import unit.Connection;
 import unit.IUniversalForm;
 
-import javax.sql.rowset.JdbcRowSet;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -24,13 +23,8 @@ public class FishCatchControllerForVoyageForm extends FishCatchController {
     }
 
     public FishCatchControllerForVoyageForm(FishCatchController controller, int voyageId) {
-        this(controller.getJrs(), voyageId);
-    }
-
-    public FishCatchControllerForVoyageForm(JdbcRowSet jrs, int voyageId) {
-        super(jrs);
         this.voyageId = voyageId;
-        reset();
+        setJrs(controller.getJrs());
     }
 
     @Override

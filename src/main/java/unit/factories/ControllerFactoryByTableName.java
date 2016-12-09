@@ -21,6 +21,7 @@ public class ControllerFactoryByTableName extends ControllerFactory<String> {
         add("fishSeason", () -> new FishSeasonController(connection, "fishSeason"));
         add("fishCatch", () -> new FishCatchController(connection, "fishCatch"));
         add("voyage", () -> new VoyageController(connection, "voyage"));
+        add("voyage_inventory", () -> new VoyageInventoryController(connection, "voyage_inventory"));
     }
 
     public AbstractController getInstance(JdbcRowSet id) {

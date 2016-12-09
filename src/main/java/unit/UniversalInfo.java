@@ -17,6 +17,7 @@ public class UniversalInfo implements IInfo<ISqlModel> {
         functionSet.put(Ship.class, new ShipInfo());
         functionSet.put(FishSeason.class, new FishSeasonInfo());
         functionSet.put(Quota.class, new QuotaInfo());
+        functionSet.put(Inventory.class, new InventoryInfo());
     }
 
     @Override
