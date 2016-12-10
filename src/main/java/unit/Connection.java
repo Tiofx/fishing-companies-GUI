@@ -43,12 +43,16 @@ public class Connection {
     protected final int tablesNumber = tablesName.length;
 
     public Connection() {
+        this("root", "root");
+    }
+
+    public Connection(String userName, String userPassword) {
         this("com.mysql.jdbc.Driver",
                 "localhost",
                 "3306",
-                "fishingCompanies2",
-                "root",
-                "root");
+                "fishingCompanies",
+                userName,
+                userPassword);
     }
 
     public Connection(String driverName, String ip, String port,

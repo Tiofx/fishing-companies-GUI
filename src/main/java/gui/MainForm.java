@@ -37,7 +37,11 @@ public class MainForm extends JFrame {
         pack();
         this.setVisible(true);
 
-        connection = new Connection();
+
+        LoginForm loginForm = new LoginForm();
+        connection = unit.Dialog.makeOperation("authorization", loginForm, a -> true);
+
+//        connection = new Connection();
         connection.startConnection();
 
         allControllers = new AbstractController[connection.getTablesNumber()];
