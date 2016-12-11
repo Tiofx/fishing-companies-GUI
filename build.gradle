@@ -21,6 +21,16 @@ repositories {
 
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6+'

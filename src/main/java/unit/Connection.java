@@ -25,7 +25,7 @@ public class Connection {
 
     public java.sql.Connection connection;
 
-    public static final FormFactory<Class> formFactory = new FormFactory<>();
+    public static FormFactory<Class> formFactory = new FormFactory<>();
     public static ControllerFactory<String> controllerFactory;
 
     protected Statement stmt;
@@ -65,6 +65,7 @@ public class Connection {
         this.userPassword = userPassword;
 
         controllerFactory = new ControllerFactoryByTableName(this);
+        formFactory = new FormFactory<>();
         fillFactory();
     }
 
